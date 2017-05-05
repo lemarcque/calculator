@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Button equal default background -->
+    <color name="colorbtnEqualBackgroundDefault">#3bdbea</color>
+    <color name="colorbtnOperationBackgroundDefault">#33FFFFFF</color>
+</resources>
