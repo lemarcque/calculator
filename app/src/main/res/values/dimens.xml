@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+Author : Lemarcque
+-->
+
+<resources>
+    <dimen name="txt_touchsize">20sp</dimen><!-- Taille des cja,ps de textes des touches -->
+    <dimen name="touchwidth">0dp</dimen>
+</resources>

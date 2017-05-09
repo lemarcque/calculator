@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/computationactivity_wrapper"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,7 @@
 
     <!--- Calculation Area -->
     <LinearLayout
-        android:id="@+id/calculationarea"
+        android:id="@+id/calcularea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -22,10 +23,13 @@
             android:layout_height="20dp"
             android:textSize="20sp"
             android:textAlignment="textEnd"
-            tools:text="3+3"
+            tools:text=" 3 + 3 * 2"
+            android:text="3 + 3 * 2"
             style="@style/ComputeText"/>
+
         <!-- Result number -->
         <TextView
+            android:id="@+id/resultnumber"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:textAlignment="textEnd"
@@ -44,135 +48,88 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">
-        <Button android:layout_width="0dp"
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="0dp"
             android:text="C"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btn_plusminus"
             tools:text="±"
-            android:text=""
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
-            style="@style/ButtonDefault"/>
-        <Button android:layout_width="0dp"
-            android:text="%"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:text="@string/str_plusminus"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="÷"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_percent"
+            android:text="@string/str_percent"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_divide"
+            android:text="@string/str_divide"
             style="@style/ButtonOperationDefault"/>
-        <Button android:layout_width="0dp"
-            android:text="7"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
-            style="@style/ButtonDefault"/>
-        <Button android:layout_width="0dp"
-            android:text="8"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+        <Button
+            android:id="@+id/btn_seven"
+            android:layout_width="0dp"
+            android:text="@string/str_seven"
             style="@style/ButtonDefault"/>
         <Button
+            android:id="@+id/btn_eight"
             android:layout_width="0dp"
-            android:text="9"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:text="@string/str_eight"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="x"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_nine"
+            android:text="@string/str_nine"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_multiply"
+            android:text="@string/str_multiply"
             style="@style/ButtonOperationDefault"
             />
         <Button
-            android:layout_width="0dp"
-            android:text="4"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_four"
+            android:text="@string/str_four"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="5"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_five"
+            android:text="@string/str_five"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="6"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_six"
+            android:text="@string/str_six"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btn_subtract"
             android:text="-"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
             style="@style/ButtonOperationDefault"/>
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btn_one"
             android:text="1"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
             style="@style/ButtonDefault"/>
         <Button
+            android:id="@+id/btn_two"
             android:layout_width="0dp"
-            android:text="2"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:text="@string/str_2"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="3"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_three"
+            android:text="@string/str_3"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="+"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_add"
+            android:text="@string/str_add"
             style="@style/ButtonOperationDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="0"
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_zero"
+            android:text="@string/str_zero"
             style="@style/ButtonDefault"/>
         <Button
-            android:layout_width="0dp"
-            android:text="."
-            tools:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="fill"
+            android:id="@+id/btn_point"
+            android:text="@string/str_point"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_equal"
-            android:layout_width="0dp"
+            android:text="@string/str_equal"
             tools:text="="
-            android:layout_columnWeight="1"
             android:layout_rowWeight="2"
             android:layout_gravity="fill"
             android:layout_columnSpan="2"

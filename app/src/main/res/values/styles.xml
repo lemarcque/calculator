@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,15 +17,21 @@
 
     <!-- GridLayout area -->
         <!-- Button cell-->
-        <style name="ButtonDefault">
+        <style name="Button">
+            <item name="android:textSize">@dimen/txt_touchsize</item>
+            <item name="android:layout_columnWeight">1</item>
+            <item name="android:layout_width">@dimen/touchwidth</item>
+        </style>
+        <style name="ButtonDefault" parent="Button">
             <item name="android:background">@android:color/transparent</item>
             <item name="android:textColor">@android:color/white</item>
+
         </style>
-        <style name="ButtonEqualDefault">
+        <style name="ButtonEqualDefault" parent="Button">
             <item name="android:background">@color/colorbtnEqualBackgroundDefault</item>
             <item name="android:textColor">@android:color/white</item>
         </style>
-        <style name="ButtonOperationDefault">
+        <style name="ButtonOperationDefault" parent="Button">
             <item name="android:background">@color/colorbtnOperationBackgroundDefault</item>
             <item name="android:textColor">@android:color/white</item>
         </style>
