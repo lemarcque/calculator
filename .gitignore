@@ -1,5 +1,10 @@
+#gradle file and build file according to the openclassroom TP instructions
 .gradle
 build/
+calculator.iml
+gradlew.bat
+local.propreties
+settings.gradle
 
 # Ignore Gradle GUI config
 gradle-app.setting
