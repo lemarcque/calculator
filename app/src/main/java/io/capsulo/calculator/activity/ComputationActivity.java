@@ -1,4 +1,4 @@
-package io.capsulo.calculator;
+package io.capsulo.calculator.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import io.capsulo.calculator.R;
 
 /**
  * @author lemarcque
@@ -119,7 +121,6 @@ public class ComputationActivity extends Activity {
         widthButton = Math.round(screenWidth / columnCount);    // 1 : buttons width equal to screenwidth divide by the number of column
         heightButton = Math.round(widthButton);                 // 2 : the button height equal to buttons width
 
-
         // resize all the button
         for(Button btn : numericBtn) {
             btn.getLayoutParams().width = widthButton;
@@ -215,4 +216,6 @@ public class ComputationActivity extends Activity {
             }
         }
     }
+
+    public void verification
 }
