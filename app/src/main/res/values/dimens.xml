@@ -5,6 +5,6 @@ Author : Lemarcque
 -->
 
 <resources>
-    <dimen name="txt_touchsize">20sp</dimen><!-- Taille des cja,ps de textes des touches -->
+    <dimen name="txt_touchsize">24sp</dimen><!-- Taille des cja,ps de textes des touches -->
     <dimen name="touchwidth">0dp</dimen>
 </resources>

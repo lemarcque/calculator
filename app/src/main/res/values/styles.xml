@@ -8,16 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Text style -->
+    <style name="fontStyle">
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
     <!-- computationactivity_layout -->
 
     <!-- computation area -->
-    <style name="ComputeText">
+    <style name="ComputeText" parent="fontStyle">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- GridLayout area -->
         <!-- Button cell-->
-        <style name="Button">
+        <style name="Button" parent="fontStyle">
             <item name="android:textSize">@dimen/txt_touchsize</item>
             <item name="android:layout_columnWeight">1</item>
             <item name="android:layout_width">@dimen/touchwidth</item>

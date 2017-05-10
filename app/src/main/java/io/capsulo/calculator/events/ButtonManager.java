@@ -3,7 +3,8 @@ package io.capsulo.calculator.events;
 import android.app.Activity;
 
 /**
- * Created by lemarcque on 10.05.17.
+ * @author lemarcque
+ * Description : S'occupe de gérer les événements clicks sur les touches
  */
 
 public class ButtonManager extends Activity {

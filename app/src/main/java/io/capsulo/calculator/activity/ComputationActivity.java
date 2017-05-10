@@ -1,6 +1,7 @@
 package io.capsulo.calculator.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -123,29 +124,30 @@ public class ComputationActivity extends Activity {
 
         // resize all the button
         for(Button btn : numericBtn) {
-            btn.getLayoutParams().width = widthButton;
             btn.getLayoutParams().height = heightButton;
-            btn.setOnClickListener(new OnClickListener());
             btn.requestLayout();
+            btn.setOnClickListener(new OnClickListener());
         }
 
         for(Button btn : specialBtn) {
-            btn.getLayoutParams().width = widthButton;
             btn.getLayoutParams().height = heightButton;
             btn.setOnClickListener(new OnClickListener());
             btn.requestLayout();
         }
 
         for(Button btn : operationBtn) {
-            btn.getLayoutParams().width = widthButton;
             btn.getLayoutParams().height = heightButton;
             btn.setOnClickListener(new OnClickListener());
             btn.requestLayout();
         }
 
+        // Trying to set the uppercase char "X" in lowercase char "x"
+        // The code below does not work
+        operationBtn.get(1).setText(operationBtn.get(1).getText().toString().toLowerCase());
+
         // 3 :  the positions of the gridlayout equal to the screenheight minus the gridlayout height
         //      or relatve to the calcularea position on the y axe
-        calculArea.getLayoutParams().height = Math.round(screenHeight) - (heightButton * rowCount);  // no difference ?
+        //calculArea.getLayoutParams().height = calculArea.getLayoutParams().height - (heightButton * rowCount);  // no difference ?
     }
 
     public class OnClickListener implements View.OnClickListener {
@@ -154,7 +156,7 @@ public class ComputationActivity extends Activity {
         // Add onclick method listener to the toucharea gridlayout
         public void onClick(View v) {
             switch(v.getId()) {
-                // Gestions des touches des opérations
+                // Gestions des touches des spéciales
                 case R.id.btn_clear:
                     Log.i("c", "clear the memory");
                     break;
@@ -162,13 +164,13 @@ public class ComputationActivity extends Activity {
                     Log.i("c", "changement de signe");
                     break;
                 case R.id.btn_percent:
-                    Log.i("c", "divide");
+                    Log.i("c", "percent");
                     break;
                 case R.id.btn_equal:
                     Log.i("c", "equal");
                     break;
 
-                // Gestions des touches spéciales
+                // Gestions des touches opérations
                 case R.id.btn_divide:
                     Log.i("c", "divide");
                     break;
@@ -217,5 +219,7 @@ public class ComputationActivity extends Activity {
         }
     }
 
-    public void verification
+    public void verification() {
+
+    }
 }

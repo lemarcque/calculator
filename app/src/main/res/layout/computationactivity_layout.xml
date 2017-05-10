@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bkg">
+    android:background="@drawable/bkg"
+    >
 
 
     <!--- Calculation Area -->
@@ -14,27 +15,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <!-- Computer number -->
         <TextView
             android:id="@+id/computenumber"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textAlignment="textEnd"
             tools:text=" 3 + 3 * 2"
             android:text="3 + 3 * 2"
-            style="@style/ComputeText"/>
+            android:textColor="#B3FFFFFF"
+            style="@style/ComputeText" />
 
         <!-- Result number -->
         <TextView
             android:id="@+id/resultnumber"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:textAlignment="textEnd"
-            android:textSize="60dp"
+            android:textSize="60sp"
             tools:text="9"
+            android:text="9"
             style="@style/ComputeText"/>
     </LinearLayout>
 
@@ -92,11 +95,12 @@
         <Button
             android:id="@+id/btn_five"
             android:text="@string/str_five"
-            style="@style/ButtonDefault"/>
+            style="@style/ButtonDefault" />
         <Button
             android:id="@+id/btn_six"
             android:text="@string/str_six"
-            style="@style/ButtonDefault"/>
+            style="@style/ButtonDefault"
+            />
         <Button
             android:id="@+id/btn_subtract"
             android:text="-"
@@ -132,6 +136,7 @@
             tools:text="="
             android:layout_rowWeight="2"
             android:layout_gravity="fill"
+            android:gravity="center"
             android:layout_columnSpan="2"
             style="@style/ButtonEqualDefault"/>
     </GridLayout>
