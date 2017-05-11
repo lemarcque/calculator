@@ -2,6 +2,7 @@ package io.capsulo.calculator.events;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import io.capsulo.calculator.R;
@@ -11,12 +12,18 @@ import io.capsulo.calculator.R;
  * Description : S'occupe de gérer les événements clicks sur les touches
  */
 
-public class ButtonManager {
+public class ButtonManager implements View.OnTouchListener {
 
     public ButtonManager() {
 
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.i("id", v.getResources().getResourceEntryName(v.getId()));
+        Log.i("tag", String.valueOf(v.getTag()));
+        return true;
+    }
     /*@Override
     // Add onclick method listener to the toucharea gridlayout
     public static void onClick(View v) {

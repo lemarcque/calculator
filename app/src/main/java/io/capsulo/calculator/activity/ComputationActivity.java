@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.capsulo.calculator.R;
+import io.capsulo.calculator.events.ButtonManager;
 
 /**
  * @author lemarcque
@@ -49,6 +50,9 @@ public class ComputationActivity extends Activity {
     private int heightButton;         // Hauteur des boutons
     private final int columnCount = 4;
     private final int rowCount = 5;
+
+    // Class
+    private ButtonManager buttonManager;
 
     public void onCreate(Bundle saveInstanceState) {
         // configuration of the view
@@ -125,22 +129,25 @@ public class ComputationActivity extends Activity {
         widthButton = Math.round(screenWidth / columnCount);    // 1 : buttons width equal to screenwidth divide by the number of column
         heightButton = Math.round(widthButton);                 // 2 : the button height equal to buttons width
 
+        // Initialize button manager
+        buttonManager = new ButtonManager();
+
         // resize all the button
         for(Button btn : numericBtn) {
             btn.getLayoutParams().height = heightButton;
             btn.requestLayout();
-            btn.setOnTouchListener(new OnTouchListener());
+            btn.setOnTouchListener(buttonManager);
         }
 
         for(Button btn : specialBtn) {
             btn.getLayoutParams().height = heightButton;
-            btn.setOnTouchListener(new OnTouchListener());
+            btn.setOnTouchListener(buttonManager);
             btn.requestLayout();
         }
 
         for(Button btn : operationBtn) {
             btn.getLayoutParams().height = heightButton;
-            btn.setOnTouchListener(new OnTouchOperationListener());
+            btn.setOnTouchListener(buttonManager);
             btn.requestLayout();
         }
 
@@ -152,6 +159,7 @@ public class ComputationActivity extends Activity {
         //      or relatve to the calcularea position on the y axe
         //calculArea.getLayoutParams().height = calculArea.getLayoutParams().height - (heightButton * rowCount);  // no difference ?
     }
+
 
 
     public class OnTouchOperationListener implements View.OnTouchListener {
@@ -166,6 +174,7 @@ public class ComputationActivity extends Activity {
 
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 v.setBackgroundColor(Color.parseColor("#66" + strColor.replace("#", "")));
+                Log.i("tag", String.valueOf(v.getTag()));
             }else if(event.getAction() == MotionEvent.ACTION_UP) {
                 v.setBackgroundColor(Color.parseColor("#33" + strColor.replace("#", "")));
             }
@@ -185,7 +194,6 @@ public class ComputationActivity extends Activity {
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 if(v.getResources().getResourceEntryName(v.getId()).equals("btn_equal")) {
                     v.setBackgroundColor(Color.parseColor("#75e6f1"));
-                    Log.i("LOL", strColor);
                 }
                 else
                     v.setBackgroundColor(Color.parseColor("#33FFFFFF"));

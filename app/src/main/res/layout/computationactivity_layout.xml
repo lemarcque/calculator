@@ -53,91 +53,125 @@
         android:visibility="visible">
         <Button
             android:id="@+id/btn_clear"
+            android:tag="btn_special"
             android:layout_width="0dp"
             android:text="C"
-            style="@style/ButtonDefault"/>
+            tools:text="C"
+            style="@style/ButtonDefault"
+            />
         <Button
             android:id="@+id/btn_plusminus"
-            tools:text="±"
+            android:tag="btn_special"
             android:text="@string/str_plusminus"
+            tools:text="±"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_percent"
+            android:tag="btn_special"
             android:text="@string/str_percent"
+            tools:text="%"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_divide"
+            android:tag="btn_operation"
             android:text="@string/str_divide"
-            style="@style/ButtonOperationDefault"/>
+            tools:text="@string/str_divide"
+            style="@style/ButtonOperationDefault"
+            />
         <Button
             android:id="@+id/btn_seven"
+            android:tag="btn_numeric"
             android:layout_width="0dp"
             android:text="@string/str_seven"
+            tools:text="@string/str_seven"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_eight"
+            android:tag="btn_numeric"
             android:layout_width="0dp"
             android:text="@string/str_eight"
+            tools:text="@string/str_eight"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_nine"
+            android:tag="btn_numeric"
             android:text="@string/str_nine"
+            tools:text="@string/str_nine"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_multiply"
             android:text="@string/str_multiply"
             style="@style/ButtonOperationDefault"
-            />
+            android:tag="btn_operation" />
         <Button
             android:id="@+id/btn_four"
+            android:tag="btn_numeric"
             android:text="@string/str_four"
+            tools:text="@string/str_four"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_five"
+            android:tag="btn_numeric"
             android:text="@string/str_five"
+            tools:text="@string/str_five"
             style="@style/ButtonDefault" />
         <Button
             android:id="@+id/btn_six"
+            android:tag="btn_numeric"
             android:text="@string/str_six"
+            tools:text="@string/str_six"
             style="@style/ButtonDefault"
             />
         <Button
             android:id="@+id/btn_subtract"
             android:text="-"
-            style="@style/ButtonOperationDefault"/>
+            style="@style/ButtonOperationDefault"
+            android:tag="btn_operation"/>
         <Button
             android:id="@+id/btn_one"
+            android:tag="btn_numeric"
             android:text="1"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_two"
+            android:tag="btn_numeric"
             android:layout_width="0dp"
-            android:text="@string/str_2"
+            android:text="@string/str_two"
+            tools:text="@string/str_two"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_three"
-            android:text="@string/str_3"
+            android:tag="btn_numeric"
+            android:text="@string/str_three"
+            tools:text="@string/str_three"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_add"
+            android:tag="btn_operation"
             android:text="@string/str_add"
-            style="@style/ButtonOperationDefault"/>
+            tools:text="@string/str_add"
+            style="@style/ButtonOperationDefault" />
         <Button
             android:id="@+id/btn_zero"
+            android:tag="btn_numeric"
             android:text="@string/str_zero"
+            tools:text="@string/str_zero"
             style="@style/ButtonDefault"/>
         <Button
             android:id="@+id/btn_point"
+            android:tag="btn_numeric"
             android:text="@string/str_point"
-            style="@style/ButtonDefault"/>
+            tools:text="@string/str_point"
+            style="@style/ButtonDefault" />
         <Button
             android:id="@+id/btn_equal"
+            android:tag="btn_special"
             android:text="@string/str_equal"
-            tools:text="="
-            android:layout_rowWeight="2"
-            android:layout_gravity="fill"
             android:gravity="center"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="2"
             android:layout_columnSpan="2"
+            tools:text="="
             style="@style/ButtonEqualDefault"/>
     </GridLayout>
 
