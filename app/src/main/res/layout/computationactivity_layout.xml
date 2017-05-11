@@ -19,7 +19,7 @@
 
         <!-- Computer number -->
         <TextView
-            android:id="@+id/computenumber"
+            android:id="@+id/txtCompute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -31,7 +31,7 @@
 
         <!-- Result number -->
         <TextView
-            android:id="@+id/resultnumber"
+            android:id="@+id/txtResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"

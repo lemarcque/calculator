@@ -2,11 +2,14 @@ package io.capsulo.calculator.activity;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,8 +35,8 @@ public class ComputationActivity extends Activity {
     // Views
     private LinearLayout computationActivityLayout;
     private LinearLayout calculArea;
-    private TextView computeNumber;
-    private TextView resultNumber;
+    private TextView txtCompute;
+    private TextView txtResult;
     GridLayout touchArea;
     private ArrayList<Button> numericBtn;
     private ArrayList<Button> operationBtn;
@@ -60,8 +63,8 @@ public class ComputationActivity extends Activity {
     private void init() {
         computationActivityLayout = (LinearLayout) this.findViewById(R.id.computationactivity_wrapper);
         calculArea = (LinearLayout) this.findViewById(R.id.calcularea);
-        computeNumber = (TextView) this.findViewById(R.id.computenumber);
-        resultNumber = (TextView) this.findViewById(R.id.resultnumber);
+        txtCompute = (TextView) this.findViewById(R.id.txtCompute);
+        txtResult = (TextView) this.findViewById(R.id.txtResult);
         touchArea = (GridLayout) this.findViewById(R.id.toucharea);
 
         // Add all the buttons in the grid (GridLayout)
@@ -126,18 +129,18 @@ public class ComputationActivity extends Activity {
         for(Button btn : numericBtn) {
             btn.getLayoutParams().height = heightButton;
             btn.requestLayout();
-            btn.setOnClickListener(new OnClickListener());
+            btn.setOnTouchListener(new OnTouchListener());
         }
 
         for(Button btn : specialBtn) {
             btn.getLayoutParams().height = heightButton;
-            btn.setOnClickListener(new OnClickListener());
+            btn.setOnTouchListener(new OnTouchListener());
             btn.requestLayout();
         }
 
         for(Button btn : operationBtn) {
             btn.getLayoutParams().height = heightButton;
-            btn.setOnClickListener(new OnClickListener());
+            btn.setOnTouchListener(new OnTouchOperationListener());
             btn.requestLayout();
         }
 
@@ -150,11 +153,57 @@ public class ComputationActivity extends Activity {
         //calculArea.getLayoutParams().height = calculArea.getLayoutParams().height - (heightButton * rowCount);  // no difference ?
     }
 
-    public class OnClickListener implements View.OnClickListener {
+
+    public class OnTouchOperationListener implements View.OnTouchListener {
 
         @Override
-        // Add onclick method listener to the toucharea gridlayout
+        public boolean onTouch(View v, MotionEvent event) {
+            // get the alpha color background
+            int color = Color.TRANSPARENT;
+            Drawable background = v.getBackground();
+            if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();   // couleur au format integer
+            String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
+
+            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.setBackgroundColor(Color.parseColor("#66" + strColor.replace("#", "")));
+            }else if(event.getAction() == MotionEvent.ACTION_UP) {
+                v.setBackgroundColor(Color.parseColor("#33" + strColor.replace("#", "")));
+            }
+            return true;
+        }
+    }
+    public class OnTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            // get the alpha color background
+            int color = Color.TRANSPARENT;
+            Drawable background = v.getBackground();
+            if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();   // couleur au format integer
+            String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
+
+            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if(v.getResources().getResourceEntryName(v.getId()).equals("btn_equal")) {
+                    v.setBackgroundColor(Color.parseColor("#75e6f1"));
+                    Log.i("LOL", strColor);
+                }
+                else
+                    v.setBackgroundColor(Color.parseColor("#33FFFFFF"));
+            }else if(event.getAction() == MotionEvent.ACTION_UP) {
+                // Si btn equal, background blue / si btn autre, background transparent
+                if(v.getResources().getResourceEntryName(v.getId()).equals("btn_equal"))
+                    v.setBackgroundColor(Color.parseColor("#3bdbea"));
+                else
+                    v.setBackgroundColor(Color.TRANSPARENT);
+            }
+
+            return true;
+        }
+        /*// Add onclick method listener to the toucharea gridlayout
         public void onClick(View v) {
+            // Graphic
+            v.setBackgroundColor(Color.parseColor("#33FFFFFF"));
+
             switch(v.getId()) {
                 // Gestions des touches des spéciales
                 case R.id.btn_clear:
@@ -216,10 +265,6 @@ public class ComputationActivity extends Activity {
                     Log.i("c", "9");
                     break;
             }
-        }
-    }
-
-    public void verification() {
-
+        }*/
     }
 }
