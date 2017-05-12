@@ -6,7 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import io.capsulo.calculator.Calculator;
 import io.capsulo.calculator.R;
 
 
@@ -20,18 +23,22 @@ public class ButtonManager implements View.OnTouchListener {
     public static int ID;           // ID de la touche actuellement pressé  (Integer)
     public static String IDSTRING;  // ID de la touche actuellement pressé  (String)
     public static String TAG;       // TAG de la touche actuellement pressé
-    public static View V;
+    public static Button V;
+
+    private Calculator calculator;  // Machine à calculer
 
     public ButtonManager() {
+        calculator = new Calculator();
     }
 
     /* Add onclick method listener to the toucharea gridlayout */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        // Récupération des informations du bouttons
         ID = v.getId();
         IDSTRING = v.getResources().getResourceEntryName(ID);
         TAG = v.getTag().toString();
-        V = v;
+        V = (Button)v;
 
         // get the alpha color background
         int color = Color.TRANSPARENT;
@@ -45,6 +52,8 @@ public class ButtonManager implements View.OnTouchListener {
         return true;
     }
 
+    /* Changement de la couleur de fond du bouton
+       dépendant du type d'événement de du type du boutons */
     private void changeColor(String color, MotionEvent event) {
 
         int colorBackground = 0;    // Couleur de fond des touches
@@ -59,19 +68,47 @@ public class ButtonManager implements View.OnTouchListener {
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 colorPressed = Color.parseColor("#33FFFFFF");                                       // 20% transparent
                 colorPressedBtnEqual = Color.parseColor("#75e6f1");                                 // +20% blanc
+
                 if(ID == R.id.btn_equal)
                     colorPressed = colorPressedBtnEqual;
+
                 colorBackground = colorPressed;
             }
             // Touche relâchée
             else if(event.getAction() == MotionEvent.ACTION_UP) {
                 colorRelease = Color.TRANSPARENT;                                                   // 100% transparent
                 colorReleaseBtnEqual = Color.parseColor("#3BDBEA");                                 // -20% blanc
-                if(ID == R.id.btn_equal)
+
+                if(ID == R.id.btn_equal) {
                     colorRelease = colorReleaseBtnEqual;
+                    calculator.compute();
+                }else {
+                    updateValues();                                                                     // Fonctions des touches
+                }
+
                 colorBackground = colorRelease;
+
             }
 
+        }else if(TAG.equals(ButtonString.TAG_OPERATION)) {
+            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                //colorBackground = Color.parseColor("#66" + color.replace("#", ""));
+                colorBackground = Color.parseColor("#66FFFFFF");
+            }else if(event.getAction() == MotionEvent.ACTION_UP) {
+                //colorBackground = Color.parseColor("#33" + color.replace("#", ""));
+                colorBackground = Color.parseColor("#33FFFFFF");
+                updateCompute();                                                                     // Fonctions des touches
+            }
+        }
+
+        // Affectation de la couleur
+        V.setBackgroundColor(colorBackground);
+    }
+
+    // Fonction des boutons
+    private void updateValues() {
+
+        if(TAG.equals(ButtonString.TAG_SPECIAL)) {
             // Gestion des boutons spécial
             switch (ID) {
                 // Gestions des touches des spéciales
@@ -91,70 +128,14 @@ public class ButtonManager implements View.OnTouchListener {
                     Log.i("info", "touche numérique !");
                     break;
             }
-
-        }else if(TAG.equals(ButtonString.TAG_OPERATION)) {
-            if(event.getAction() == MotionEvent.ACTION_DOWN)
-                colorBackground = Color.parseColor("#66" + color.replace("#", ""));
-            else if(event.getAction() == MotionEvent.ACTION_UP)
-                colorBackground = Color.parseColor("#33" + color.replace("#", ""));
-
-
-            // Gestions des touches opérations
-            switch (ID) {
-                case R.id.btn_divide:
-                    Log.i("c", "divide");
-                    break;
-                case R.id.btn_multiply:
-                    Log.i("c", "changement de signe");
-                    break;
-                case R.id.btn_subtract:
-                    Log.i("c", "substract");
-                    break;
-                case R.id.btn_add:
-                    Log.i("c", "adding");
-                    break;
-            }
+        }else {
+            // logically equals to TAG_MUMERIC ...
+            calculator.addValues(V.getText().toString());
         }
-
-        // Affectation de la couleur
-        V.setBackgroundColor(colorBackground);
     }
 
+    private void updateCompute() {
+        calculator.updateCompute(V.getText().toString());
+    }
 
-
-
-    /*
-            // Gestions des touches numériques
-            case R.id.btn_point:
-                Log.i("c", "point");
-                break;
-            case R.id.btn_one:
-                Log.i("c", "one");
-                break;
-            case R.id.btn_two:
-                Log.i("c", "one");
-                break;
-            case R.id.btn_three:
-                Log.i("c", "three");
-                break;
-            case R.id.btn_four:
-                Log.i("c", "4");
-                break;
-            case R.id.btn_five:
-                Log.i("c", "5");
-                break;
-            case R.id.btn_six:
-                Log.i("c", "6 de signe");
-                break;
-            case R.id.btn_seven:
-                Log.i("c", "7");
-                break;
-            case R.id.btn_eight:
-                Log.i("c", "8");
-                break;
-            case R.id.btn_nine:
-                Log.i("c", "9");
-                break;
-        }
-    }*/
 }

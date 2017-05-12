@@ -55,7 +55,7 @@
             android:id="@+id/btn_clear"
             android:tag="btn_special"
             android:layout_width="0dp"
-            android:text="C"
+            android:text="@string/str_clear"
             tools:text="C"
             style="@style/ButtonDefault"
             />
