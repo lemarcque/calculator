@@ -35,7 +35,7 @@ public class Calculator {
                 currentComputation.add(n);
             }
 
-            currrentWritingNumber = new ArrayList<String>();
+            currrentWritingNumber.clear();
             if(operator.length() > 0) currentComputation.add(operator);
         }
     }
@@ -56,7 +56,7 @@ public class Calculator {
             updateCompute("");
 
             Log.i("calcul to calculate", currentComputation.toString());
-            currentComputation = new ArrayList<String>();
+            currentComputation.clear();
         }
     }
 
