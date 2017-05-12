@@ -46,8 +46,8 @@ public class ComputationActivity extends Activity {
     // Propreties
     private float screenWidth;          // Largeur de l'écran du smartphone / Screen width of the device
     private float screenHeight;         // Hauteur de l'écran du smartphone / Screen height of the device
-    private int widthButton;          // Largeur des boutons
-    private int heightButton;         // Hauteur des boutons
+    private int widthButton;            // Largeur des boutons
+    private int heightButton;           // Hauteur des boutons
     private final int columnCount = 4;
     private final int rowCount = 5;
 
@@ -158,121 +158,5 @@ public class ComputationActivity extends Activity {
         // 3 :  the positions of the gridlayout equal to the screenheight minus the gridlayout height
         //      or relatve to the calcularea position on the y axe
         //calculArea.getLayoutParams().height = calculArea.getLayoutParams().height - (heightButton * rowCount);  // no difference ?
-    }
-
-
-
-    public class OnTouchOperationListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // get the alpha color background
-            int color = Color.TRANSPARENT;
-            Drawable background = v.getBackground();
-            if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();   // couleur au format integer
-            String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
-
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.setBackgroundColor(Color.parseColor("#66" + strColor.replace("#", "")));
-                Log.i("tag", String.valueOf(v.getTag()));
-            }else if(event.getAction() == MotionEvent.ACTION_UP) {
-                v.setBackgroundColor(Color.parseColor("#33" + strColor.replace("#", "")));
-            }
-            return true;
-        }
-    }
-    public class OnTouchListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // get the alpha color background
-            int color = Color.TRANSPARENT;
-            Drawable background = v.getBackground();
-            if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();   // couleur au format integer
-            String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
-
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                if(v.getResources().getResourceEntryName(v.getId()).equals("btn_equal")) {
-                    v.setBackgroundColor(Color.parseColor("#75e6f1"));
-                }
-                else
-                    v.setBackgroundColor(Color.parseColor("#33FFFFFF"));
-            }else if(event.getAction() == MotionEvent.ACTION_UP) {
-                // Si btn equal, background blue / si btn autre, background transparent
-                if(v.getResources().getResourceEntryName(v.getId()).equals("btn_equal"))
-                    v.setBackgroundColor(Color.parseColor("#3bdbea"));
-                else
-                    v.setBackgroundColor(Color.TRANSPARENT);
-            }
-
-            return true;
-        }
-        /*// Add onclick method listener to the toucharea gridlayout
-        public void onClick(View v) {
-            // Graphic
-            v.setBackgroundColor(Color.parseColor("#33FFFFFF"));
-
-            switch(v.getId()) {
-                // Gestions des touches des spéciales
-                case R.id.btn_clear:
-                    Log.i("c", "clear the memory");
-                    break;
-                case R.id.btn_plusminus:
-                    Log.i("c", "changement de signe");
-                    break;
-                case R.id.btn_percent:
-                    Log.i("c", "percent");
-                    break;
-                case R.id.btn_equal:
-                    Log.i("c", "equal");
-                    break;
-
-                // Gestions des touches opérations
-                case R.id.btn_divide:
-                    Log.i("c", "divide");
-                    break;
-                case R.id.btn_multiply:
-                    Log.i("c", "changement de signe");
-                    break;
-                case R.id.btn_subtract:
-                    Log.i("c", "substract");
-                    break;
-                case R.id.btn_add:
-                    Log.i("c", "adding");
-                    break;
-
-                // Gestions des touches numériques
-                case R.id.btn_point:
-                    Log.i("c", "point");
-                    break;
-                case R.id.btn_one:
-                    Log.i("c", "one");
-                    break;
-                case R.id.btn_two:
-                    Log.i("c", "one");
-                    break;
-                case R.id.btn_three:
-                    Log.i("c", "three");
-                    break;
-                case R.id.btn_four:
-                    Log.i("c", "4");
-                    break;
-                case R.id.btn_five:
-                    Log.i("c", "5");
-                    break;
-                case R.id.btn_six:
-                    Log.i("c", "6 de signe");
-                    break;
-                case R.id.btn_seven:
-                    Log.i("c", "7");
-                    break;
-                case R.id.btn_eight:
-                    Log.i("c", "8");
-                    break;
-                case R.id.btn_nine:
-                    Log.i("c", "9");
-                    break;
-            }
-        }*/
     }
 }
