@@ -1,8 +1,10 @@
 package io.capsulo.calculator;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author lemarcque
@@ -41,10 +43,10 @@ public class Calculator {
     }
 
     /* Calculer le calcul (not more explicit) */
-    public void compute() {
+    public HashMap<String, String> compute() {
+        HashMap<String, String> results = new HashMap<String, String>();
 
-
-        // User click on the equal button without defining calcul
+        // Existing calcul: User click on the equal button without defining calcul
         // Note: il faudrait plutôt vérifier si il existe un opérateur dans le calcul
         // findOperator() ....
         if(currentComputation.size() > 0) {
@@ -56,12 +58,31 @@ public class Calculator {
             updateCompute("");
 
             Log.i("calcul to calculate", currentComputation.toString());
+            String resultJoined = "-";
+            String calculJoined = TextUtils.join(" ", currentComputation);
+            results.put("result", resultJoined);
+            results.put("calcul", calculJoined);
             currentComputation.clear();
         }
+        // Existing writing number
+        else if(currrentWritingNumber.size() > 0) {
+            // Si l'utilisateur a écrit un nombre mais aucun calcul
+            // on affiche simplement ce nombre
+            String resultJoined = TextUtils.join("", currrentWritingNumber);
+            String calculJoined = resultJoined;
+            results.put("result", resultJoined);
+            results.put("calcul", calculJoined);
+            clear();
+        }
+
+        return results;
     }
 
     /* trouver un opérateur (signe) dans le calcul .. */
     private void findOperator() {
-
+    }
+    private void clear() {
+        currentComputation.clear();
+        currrentWritingNumber.clear();
     }
 }

@@ -1,5 +1,6 @@
 package io.capsulo.calculator.events;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,8 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import io.capsulo.calculator.Calculator;
 import io.capsulo.calculator.R;
+import io.capsulo.calculator.activity.ComputationActivity;
 
 
 /**
@@ -20,15 +24,18 @@ import io.capsulo.calculator.R;
 
 public class ButtonManager implements View.OnTouchListener {
 
+    // Propreties
     public static int ID;           // ID de la touche actuellement pressé  (Integer)
     public static String IDSTRING;  // ID de la touche actuellement pressé  (String)
     public static String TAG;       // TAG de la touche actuellement pressé
     public static Button V;
 
+    private ComputationActivity activity;
     private Calculator calculator;  // Machine à calculer
 
-    public ButtonManager() {
+    public ButtonManager(ComputationActivity activity) {
         calculator = new Calculator();
+        this.activity = activity;
     }
 
     /* Add onclick method listener to the toucharea gridlayout */
@@ -81,7 +88,9 @@ public class ButtonManager implements View.OnTouchListener {
 
                 if(ID == R.id.btn_equal) {
                     colorRelease = colorReleaseBtnEqual;
-                    calculator.compute();
+                    HashMap<String, String> results = calculator.compute();
+                    activity.getTxtResult().setText(results.get("result"));
+                    activity.getTxtCompute().setText(results.get("calcul"));
                 }else {
                     updateValues();                                                                     // Fonctions des touches
                 }

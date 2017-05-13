@@ -130,7 +130,7 @@ public class ComputationActivity extends Activity {
         heightButton = Math.round(widthButton);                 // 2 : the button height equal to buttons width
 
         // Initialize button manager
-        buttonManager = new ButtonManager();
+        buttonManager = new ButtonManager(this);
 
         // resize all the button
         for(Button btn : numericBtn) {
@@ -158,5 +158,16 @@ public class ComputationActivity extends Activity {
         // 3 :  the positions of the gridlayout equal to the screenheight minus the gridlayout height
         //      or relatve to the calcularea position on the y axe
         //calculArea.getLayoutParams().height = calculArea.getLayoutParams().height - (heightButton * rowCount);  // no difference ?
+    }
+
+
+    /* Getter (Accesseur) */
+
+    public TextView getTxtCompute() {
+        return this.txtCompute;
+    }
+
+    public TextView getTxtResult() {
+        return this.txtResult;
     }
 }
