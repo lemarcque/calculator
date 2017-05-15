@@ -1,6 +1,6 @@
 <resources>
-    <!-- Nom de l'application -->
-    <string name="app_name">Instagram</string>
+    <!-- Nom de l'application (sur le launcher) -->
+    <string name="app_name">Calculator</string>
 
     <!-- Valeur des caratère des touches spéciale -->
     <string name="str_clear">C</string>
