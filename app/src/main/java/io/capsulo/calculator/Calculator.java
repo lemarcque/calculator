@@ -103,7 +103,6 @@ public class Calculator {
         }else {
             calculate();
         }
-
     }
 
     private void replace(ArrayList<HashMap<String, String>> operators) {
@@ -113,8 +112,12 @@ public class Calculator {
             int leftNumber;                     //  Le nombre se toruvant à la droite de l'opérateur
             int rightNumber;                    // Le nombre se toruvant à la droite de l'opérateur
             int index = 0;
-            ArrayList<String> currentLeftNumber = new ArrayList<String>();
+
+            ArrayList<String> arrcurrentLeftNumber = new ArrayList<String>();
+            String currentLeftNumber = "";
             String currentRightNumber = "";
+            String newValue =  "";
+            int newPosition = -1;
 
             while(leftValuesNotNull) {
                 index--;
@@ -123,7 +126,7 @@ public class Calculator {
                 if(newpos >= 0) {
                     String values = currentComputation.get(newpos);
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
-                        currentLeftNumber.add(values);
+                        arrcurrentLeftNumber.add(values);
                     }else {
                         leftValuesNotNull = false;
                         index = 0;
@@ -153,10 +156,57 @@ public class Calculator {
 
             }
 
-            Collections.reverse(currentLeftNumber);
-            Log.i("left", TextUtils.join("", currentLeftNumber));
-            Log.i("o", operators.get(i).get("value"));
-            Log.i("right", currentRightNumber);
+            Collections.reverse(arrcurrentLeftNumber);
+            currentLeftNumber = TextUtils.join("", arrcurrentLeftNumber);
+
+            // calculate
+            if(operators.get(i).get("value").equals("x")) {
+                // handling floating..
+                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
+                    float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
+                    newValue = String.valueOf(multiFloatingResult);
+                }else {
+                    int multiplicationResult = Integer.parseInt(currentLeftNumber) * Integer.parseInt(currentRightNumber);
+                    newValue = String.valueOf(multiplicationResult);
+                }
+
+            }else if(operators.get(i).get("value").equals("÷")) {
+                // handling floating..
+                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
+                    float diviFloatingResult = Float.parseFloat(currentLeftNumber) / Float.parseFloat(currentRightNumber);
+                    newValue = String.valueOf(diviFloatingResult);
+                }else {
+                    int divisionResult = Integer.parseInt(currentLeftNumber) / Integer.parseInt(currentRightNumber);
+                    newValue = String.valueOf(divisionResult);
+                }
+            }
+
+
+
+            String calculBloc = currentLeftNumber + operators.get(i).get("value") + currentRightNumber;
+            int deletePos = -1;
+
+            //remove the bloc of calcul
+            for(int j = 0; j < calculBloc.length(); j++) {
+                if(deletePos == -1) {
+                    deletePos = Integer.parseInt(operators.get(i).get("pos")) - currentLeftNumber.length();
+                }
+                currentComputation.remove(deletePos);
+            }
+
+            // insert newvalue in the calcul
+            for(int k = 0; k < newValue.length(); k ++) {
+                String reverseValue = new StringBuilder(newValue).reverse().toString();     // New value reverted
+                currentComputation.add(deletePos, String.valueOf(reverseValue.charAt(k)));
+            }
+
+            newPosition = currentComputation.size() - newValue.length();
+            //change the position of each operator
+            for(HashMap<String, String> o : operators) {
+                //Log.i("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
+                o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
+            }
+
         }
     }
 
