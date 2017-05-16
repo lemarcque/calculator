@@ -85,18 +85,11 @@ public class ButtonManager implements View.OnTouchListener {
             else if(event.getAction() == MotionEvent.ACTION_UP) {
                 colorRelease = Color.TRANSPARENT;                                                   // 100% transparent
                 colorReleaseBtnEqual = Color.parseColor("#3BDBEA");                                 // -20% blanc
-
-                if(ID == R.id.btn_equal) {
+                if(ID == R.id.btn_equal)
                     colorRelease = colorReleaseBtnEqual;
-                    HashMap<String, String> results = calculator.compute();
-                    activity.getTxtResult().setText(results.get("result"));
-                    activity.getTxtCompute().setText(results.get("calcul"));
-                }else {
-                    updateValues();                                                                     // Fonctions des touches
-                }
 
+                updateValues();                                                                     // Fonctions des touches
                 colorBackground = colorRelease;
-
             }
 
         }else if(TAG.equals(ButtonString.TAG_OPERATION)) {
@@ -122,21 +115,20 @@ public class ButtonManager implements View.OnTouchListener {
             switch (ID) {
                 // Gestions des touches des spéciales
                 case R.id.btn_clear:
-                    Log.i("c", "clear the memory");
+                    calculator.clear();
                     break;
                 case R.id.btn_plusminus:
                     Log.i("c", "changement de signe");
                     break;
                 case R.id.btn_percent:
-                    Log.i("c", "percent");
+                    calculator.setPercentWriterNumber();
                     break;
                 case R.id.btn_equal:
-                    Log.i("c", "equal");
-                    break;
-                default:
-                    Log.i("info", "touche numérique !");
+                    calculator.compute();
                     break;
             }
+
+            this.updateInterface();
         }else {
             // logically equals to TAG_MUMERIC ...
             calculator.addValues(V.getText().toString());
@@ -145,6 +137,11 @@ public class ButtonManager implements View.OnTouchListener {
 
     private void updateCompute() {
         calculator.updateCompute(V.getText().toString());
+    }
+
+    private void updateInterface() {
+        activity.getTxtResult().setText(calculator.getResult());
+        activity.getTxtCompute().setText(calculator.getComputation());
     }
 
 }

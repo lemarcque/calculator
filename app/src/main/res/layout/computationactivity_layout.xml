@@ -25,7 +25,6 @@
             android:textSize="20sp"
             android:textAlignment="textEnd"
             tools:text=" 3 + 3 * 2"
-            android:text="3 + 3 * 2"
             android:textColor="#B3FFFFFF"
             style="@style/ComputeText" />
 
@@ -37,7 +36,6 @@
             android:textAlignment="textEnd"
             android:textSize="60sp"
             tools:text="9"
-            android:text="9"
             style="@style/ComputeText"/>
     </LinearLayout>
 

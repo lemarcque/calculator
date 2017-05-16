@@ -14,6 +14,8 @@ import java.util.HashMap;
 
 public class Calculator {
 
+    private String computation;
+    private String result;
     private ArrayList<String> currentComputation;         // Calcul affiché dans la zone de texte
     private ArrayList<String> currrentWritingNumber;      /* Valeur du nombre : affiché dans le champs de texte
                                                                   actuellement entrain d'être écrit */
@@ -40,13 +42,12 @@ public class Calculator {
 
             currrentWritingNumber.clear();
             if(operator.length() > 0) currentComputation.add(operator);
+            computation = TextUtils.join(" ", currentComputation);
         }
     }
 
     /* Calculer le calcul (not more explicit) */
-    public HashMap<String, String> compute() {
-        HashMap<String, String> results = new HashMap<String, String>();
-
+    public void compute() {
         // Existing calcul: User click on the equal button without defining calcul
         // Note: il faudrait plutôt vérifier si il existe un opérateur dans le calcul
         // findOperator() ....
@@ -60,27 +61,19 @@ public class Calculator {
             updateCompute("");  // Update the value of the current writer calcul
             trim();
 
-            Log.i("calcul to calculate", currentComputation.toString());
+            Log.i("result array", currentComputation.toString());
 
             // On attache les Tableau de chaïne de caractère ensemble
-            String resultJoined = "-";
-            String calculJoined = TextUtils.join(" ", currentComputation);
-            results.put("result", resultJoined);
-            results.put("calcul", calculJoined);
+            result = TextUtils.join("", currentComputation);
             currentComputation.clear();
         }
         // Existing writing number
         else if(currrentWritingNumber.size() > 0) {
             // Si l'utilisateur a écrit un nombre mais aucun calcul
             // on affiche simplement ce nombre
-            String resultJoined = TextUtils.join("", currrentWritingNumber);
-            String calculJoined = resultJoined;
-            results.put("result", resultJoined);
-            results.put("calcul", calculJoined);
+            result = TextUtils.join("", currrentWritingNumber);
             clear();
         }
-
-        return results;
     }
 
     /* trouver un opérateur (signe) dans le calcul .. */
@@ -98,11 +91,9 @@ public class Calculator {
         }
 
         // Si la variable toReplace equals true, alors il faut "do stuff"
-        if(toReplace) {
+        if(toReplace)
             replace(listOperators);
-        }else {
-            calculate();
-        }
+        calculate();
     }
 
     private void replace(ArrayList<HashMap<String, String>> operators) {
@@ -179,6 +170,24 @@ public class Calculator {
                     int divisionResult = Integer.parseInt(currentLeftNumber) / Integer.parseInt(currentRightNumber);
                     newValue = String.valueOf(divisionResult);
                 }
+            }else if(operators.get(i).get("value").equals("+")) {
+                // handling floating..
+                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
+                    float addFloatingResult = Float.parseFloat(currentLeftNumber) + Float.parseFloat(currentRightNumber);
+                    newValue = String.valueOf(addFloatingResult);
+                }else {
+                    int additionResult = Integer.parseInt(currentLeftNumber) + Integer.parseInt(currentRightNumber);
+                    newValue = String.valueOf(additionResult);
+                }
+            }else if(operators.get(i).get("value").equals("-")) {
+                // handling floating..
+                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
+                    float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
+                    newValue = String.valueOf(minusFloatinResult);
+                }else {
+                    int minusResult = Integer.parseInt(currentLeftNumber) - Integer.parseInt(currentRightNumber);
+                    newValue = String.valueOf(minusResult);
+                }
             }
 
 
@@ -210,13 +219,60 @@ public class Calculator {
         }
     }
 
+    /* Cette fonction va simplement effectuer les additions et les soustractions
+       Si il n y a aucune opération ä effectuer, il ne fait rien
+     */
     private void calculate() {
+        ArrayList<HashMap<String, String>> listOperators = new ArrayList<HashMap<String, String>>();
+        boolean toReplace = false;
 
+        for(int i = 0; i < currentComputation.size(); i++) {
+            if(currentComputation.get(i).toLowerCase().equals("+") || currentComputation.get(i).equals("-")) {
+                toReplace = true;
+                listOperators.add(new HashMap<String, String>());
+                listOperators.get(listOperators.size() - 1).put("pos", String.valueOf(i));          // pos : position dans le tableau
+                listOperators.get(listOperators.size() - 1).put("value", currentComputation.get(i));// values : valeur du nombre ou autres
+            }
+        }
+
+        if(toReplace) replace(listOperators);
     }
 
     // Rafraichit  / Rénitialise
-    private void clear() {
+    public void clear() {
         currentComputation.clear();
         currrentWritingNumber.clear();
+        result = "";
+        computation = "";
+    }
+
+
+    /* FONCTION SPECIAL */
+    private void setSignCurrentWriterNumber() {
+
+    }
+
+    /* use float instead.. */
+    public void setPercentWriterNumber() {
+        /*if(currrentWritingNumber.size() > 0) {Log.i("LO", currrentWritingNumber.toString());
+            Integer n = Integer.parseInt(TextUtils.join("", currrentWritingNumber));
+            n = n / 100;
+            String writerNumber = String.valueOf(n);
+            currrentWritingNumber.clear();
+
+            for(int i = 0; i < writerNumber.length(); i++) {
+                currrentWritingNumber.add(String.valueOf(writerNumber.charAt(i)));
+            }
+
+        }*/
+    }
+
+    /* GETTER / SETTER */
+    public String getComputation() {
+        return this.computation;
+    }
+
+    public String getResult() {
+        return this.result;
     }
 }
