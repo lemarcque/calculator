@@ -1,4 +1,4 @@
-package io.capsulo.calculator;
+package io.capsulo.calculator.calculator;
 
 import android.text.TextUtils;
 import android.util.Log;
