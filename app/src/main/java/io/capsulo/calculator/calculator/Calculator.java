@@ -14,20 +14,31 @@ import java.util.HashMap;
 
 public class Calculator {
 
-    private String computation;
+    private String formula;
     private String result;
-    private ArrayList<String> currentComputation;         // Calcul affiché dans la zone de texte
-    private ArrayList<String> currrentWritingNumber;      /* Valeur du nombre : affiché dans le champs de texte
-                                                                  actuellement entrain d'être écrit */
+    private ArrayList<String> currentComputation;         // computetext area
+    private ArrayList<String> currrentWritingNumber;      // resulttext area
+    private boolean resetComputation;
 
     public Calculator() {
         currentComputation = new ArrayList<String>();
         currrentWritingNumber = new ArrayList<String>();
+        result = "";
+        formula = "";
     }
 
-    /* Ajoute une valeur (point, entier, etc...) au nombre actuellement écrit */
+    /* Adding values (root, integer, point)  */
     public void addValues(String values) {
+        if(resetComputation) {
+            resetComputation = false;
+            reset();
+        }
+
+        if(this.getSign(Utils.StringToDouble(values)).equals(Constants.MINUS))
+            values.replace("A", "-");
+
         currrentWritingNumber.add(values);
+        result += values;
     }
 
     /* On ajoute le nombre actuellement entrain d'être écrit au calcul
@@ -36,43 +47,33 @@ public class Calculator {
     public void updateCompute(String operator) {
         // Uniquement si un nombre est écrit
         if(currrentWritingNumber.size() > 0) {
+            if(this.getSign(Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber))).equals(Constants.MINUS))
+                currrentWritingNumber.set(0, "A");
+
             for(String n :  currrentWritingNumber) {
                 currentComputation.add(n);
             }
 
             currrentWritingNumber.clear();
+            result = "";
             if(operator.length() > 0) currentComputation.add(operator);
-            computation = TextUtils.join(" ", currentComputation);
+            formula = Utils.arrayToString(currentComputation);
         }
     }
 
-    /* Calculer le calcul (not more explicit) */
+    /* Calculate formula */
     public void compute() {
-        // Existing calcul: User click on the equal button without defining calcul
-        // Note: il faudrait plutôt vérifier si il existe un opérateur dans le calcul
-        // findOperator() ....
         if(currentComputation.size() > 0) {
-            // 1: Savoir si c'est une addition et/ou soustraction
-            // 2: Si multi ou division
-            // 3: priorite etc.
-            // 4: efectuer l'additoin soustraction
-            // 5: et voila : done.
-
             updateCompute("");  // Update the value of the current writer calcul
             trim();
-
-            Log.i("result array", currentComputation.toString());
-
-            // On attache les Tableau de chaïne de caractère ensemble
             result = TextUtils.join("", currentComputation);
             currentComputation.clear();
+            resetComputation = true;
         }
-        // Existing writing number
         else if(currrentWritingNumber.size() > 0) {
-            // Si l'utilisateur a écrit un nombre mais aucun calcul
-            // on affiche simplement ce nombre
+            // if user doest write any formula, we show this number
             result = TextUtils.join("", currrentWritingNumber);
-            clear();
+            reset();
         }
     }
 
@@ -116,6 +117,7 @@ public class Calculator {
 
                 if(newpos >= 0) {
                     String values = currentComputation.get(newpos);
+                    Log.i("C", currentComputation.toString());
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
                         arrcurrentLeftNumber.add(values);
                     }else {
@@ -149,15 +151,21 @@ public class Calculator {
 
             Collections.reverse(arrcurrentLeftNumber);
             currentLeftNumber = TextUtils.join("", arrcurrentLeftNumber);
+            currentLeftNumber = replaceSign(currentLeftNumber);
+            currentRightNumber = replaceSign(currentRightNumber);
 
             // calculate
             if(operators.get(i).get("value").equals("x")) {
                 // handling floating..
+                Log.i("LEFT", currentLeftNumber);
+                Log.i("RIGHT", currentRightNumber);
+
                 if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
                     float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(multiFloatingResult);
                 }else {
-                    int multiplicationResult = Integer.parseInt(currentLeftNumber) * Integer.parseInt(currentRightNumber);
+                    double multiplicationResult = Double.parseDouble(currentLeftNumber) * Double.parseDouble(currentRightNumber);
+                    Log.i("LOL", String.valueOf(multiplicationResult));
                     newValue = String.valueOf(multiplicationResult);
                 }
 
@@ -167,7 +175,7 @@ public class Calculator {
                     float diviFloatingResult = Float.parseFloat(currentLeftNumber) / Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(diviFloatingResult);
                 }else {
-                    int divisionResult = Integer.parseInt(currentLeftNumber) / Integer.parseInt(currentRightNumber);
+                    double divisionResult = Double.parseDouble(currentLeftNumber) / Double.parseDouble(currentRightNumber);
                     newValue = String.valueOf(divisionResult);
                 }
             }else if(operators.get(i).get("value").equals("+")) {
@@ -176,26 +184,32 @@ public class Calculator {
                     float addFloatingResult = Float.parseFloat(currentLeftNumber) + Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(addFloatingResult);
                 }else {
-                    int additionResult = Integer.parseInt(currentLeftNumber) + Integer.parseInt(currentRightNumber);
+                    double additionResult = Double.parseDouble(currentLeftNumber) + Double.parseDouble(currentRightNumber);
                     newValue = String.valueOf(additionResult);
                 }
             }else if(operators.get(i).get("value").equals("-")) {
                 // handling floating..
                 if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
+                    Log.i("info", currentLeftNumber);
+                    Log.i("info", currentRightNumber);
                     float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(minusFloatinResult);
                 }else {
-                    int minusResult = Integer.parseInt(currentLeftNumber) - Integer.parseInt(currentRightNumber);
+                    double minusResult = Double.parseDouble(currentLeftNumber) - Double.parseDouble(currentRightNumber);
                     newValue = String.valueOf(minusResult);
                 }
             }
 
 
+            // Replacement
+            if(i + 1 < operators.size()) {
+                if(currentLeftNumber.charAt(0) == '-') currentLeftNumber.replace('-', 'A');
+                if(currentRightNumber.charAt(0) == '-') currentRightNumber.replace('-', 'A');
+            }
 
+            //remove the bloc of calcul in formula: exemple -> "2 x 2"
             String calculBloc = currentLeftNumber + operators.get(i).get("value") + currentRightNumber;
             int deletePos = -1;
-
-            //remove the bloc of calcul
             for(int j = 0; j < calculBloc.length(); j++) {
                 if(deletePos == -1) {
                     deletePos = Integer.parseInt(operators.get(i).get("pos")) - currentLeftNumber.length();
@@ -203,7 +217,7 @@ public class Calculator {
                 currentComputation.remove(deletePos);
             }
 
-            // insert newvalue in the calcul
+            // insert newvalue in the formla: exemple -> "4"
             for(int k = 0; k < newValue.length(); k ++) {
                 String reverseValue = new StringBuilder(newValue).reverse().toString();     // New value reverted
                 currentComputation.add(deletePos, String.valueOf(reverseValue.charAt(k)));
@@ -212,11 +226,18 @@ public class Calculator {
             newPosition = currentComputation.size() - newValue.length();
             //change the position of each operator
             for(HashMap<String, String> o : operators) {
-                //Log.i("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
-                o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
+                o.put("pos", String.valueOf(Double.parseDouble(o.get("pos")) - (calculBloc.length() - newValue.length())));
             }
 
         }
+    }
+
+    private void getLeftNumber() {
+
+    }
+
+    private void getRightNumber() {
+
     }
 
     /* Cette fonction va simplement effectuer les additions et les soustractions
@@ -238,24 +259,51 @@ public class Calculator {
         if(toReplace) replace(listOperators);
     }
 
-    // Rafraichit  / Rénitialise
-    public void clear() {
+    public void reset() {
         currentComputation.clear();
         currrentWritingNumber.clear();
         result = "";
-        computation = "";
+        formula = "";
     }
 
+    private String replaceSign(String digit) {
+        if(digit.length() > 0) {
+            if(digit.charAt(0) == 'A')
+                return digit.replace('A', '-');
+        }
 
-    /* FONCTION SPECIAL */
-    private void setSignCurrentWriterNumber() {
-
+        return digit;
     }
+
+    public void setSign() {
+        double digit = Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber));
+        String sign = this.getSign(digit);
+        if(sign.equals(Constants.PLUS)) {
+            currrentWritingNumber.add(0, "-");  // B -> minus
+        }else if(sign.equals(Constants.MINUS)) {
+            currrentWritingNumber.remove(0);
+        }
+
+        result = Utils.arrayToString(currrentWritingNumber);
+    }
+
+    private String getSign(Double digit) {
+        String strDigit = String.valueOf(digit);
+
+        if(strDigit.charAt(0) == '-') {
+            return Constants.MINUS;
+        }else if(strDigit.charAt(0) == '+') {
+            return Constants.PLUS;
+        }
+
+        return Constants.PLUS;
+    }
+
 
     /* use float instead.. */
-    public void setPercentWriterNumber() {
-        /*if(currrentWritingNumber.size() > 0) {Log.i("LO", currrentWritingNumber.toString());
-            Integer n = Integer.parseInt(TextUtils.join("", currrentWritingNumber));
+    public void getPercent() {
+        /*if(currrentWritingNumber.size() > 0) {
+            Double n = Double.parseDouble(TextUtils.join("", currrentWritingNumber));
             n = n / 100;
             String writerNumber = String.valueOf(n);
             currrentWritingNumber.clear();
@@ -264,12 +312,15 @@ public class Calculator {
                 currrentWritingNumber.add(String.valueOf(writerNumber.charAt(i)));
             }
 
+            result = Utils.arrayToString(currrentWritingNumber);
+            computation = "";
+            currrentWritingNumber.clear();
         }*/
     }
 
     /* GETTER / SETTER */
-    public String getComputation() {
-        return this.computation;
+    public String getFormula() {
+        return this.formula;
     }
 
     public String getResult() {

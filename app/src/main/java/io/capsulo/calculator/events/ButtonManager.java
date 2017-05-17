@@ -1,6 +1,5 @@
 package io.capsulo.calculator.events;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,11 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.HashMap;
-
-import io.capsulo.calculator.Calculator;
+import io.capsulo.calculator.calculator.Calculator;
 import io.capsulo.calculator.R;
 import io.capsulo.calculator.activity.ComputationActivity;
 
@@ -88,7 +84,7 @@ public class ButtonManager implements View.OnTouchListener {
                 if(ID == R.id.btn_equal)
                     colorRelease = colorReleaseBtnEqual;
 
-                updateValues();                                                                     // Fonctions des touches
+                updateValues();
                 colorBackground = colorRelease;
             }
 
@@ -99,7 +95,7 @@ public class ButtonManager implements View.OnTouchListener {
             }else if(event.getAction() == MotionEvent.ACTION_UP) {
                 //colorBackground = Color.parseColor("#33" + color.replace("#", ""));
                 colorBackground = Color.parseColor("#33FFFFFF");
-                updateCompute();                                                                     // Fonctions des touches
+                updateCompute();
             }
         }
 
@@ -115,13 +111,13 @@ public class ButtonManager implements View.OnTouchListener {
             switch (ID) {
                 // Gestions des touches des spéciales
                 case R.id.btn_clear:
-                    calculator.clear();
+                    calculator.reset();
                     break;
                 case R.id.btn_plusminus:
-                    Log.i("c", "changement de signe");
+                    calculator.setSign();
                     break;
                 case R.id.btn_percent:
-                    calculator.setPercentWriterNumber();
+                    calculator.getPercent();
                     break;
                 case R.id.btn_equal:
                     calculator.compute();
@@ -130,8 +126,8 @@ public class ButtonManager implements View.OnTouchListener {
 
             this.updateInterface();
         }else {
-            // logically equals to TAG_MUMERIC ...
             calculator.addValues(V.getText().toString());
+            this.updateInterface();
         }
     }
 
@@ -141,7 +137,7 @@ public class ButtonManager implements View.OnTouchListener {
 
     private void updateInterface() {
         activity.getTxtResult().setText(calculator.getResult());
-        activity.getTxtCompute().setText(calculator.getComputation());
+        activity.getTxtCompute().setText(calculator.getFormula());
     }
 
 }
