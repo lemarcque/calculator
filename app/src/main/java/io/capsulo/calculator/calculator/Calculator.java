@@ -34,9 +34,6 @@ public class Calculator {
             reset();
         }
 
-        if(this.getSign(Utils.StringToDouble(values)).equals(Constants.MINUS))
-            values.replace("A", "-");
-
         currrentWritingNumber.add(values);
         result += values;
     }
@@ -117,7 +114,6 @@ public class Calculator {
 
                 if(newpos >= 0) {
                     String values = currentComputation.get(newpos);
-                    Log.i("C", currentComputation.toString());
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
                         arrcurrentLeftNumber.add(values);
                     }else {
@@ -157,15 +153,12 @@ public class Calculator {
             // calculate
             if(operators.get(i).get("value").equals("x")) {
                 // handling floating..
-                Log.i("LEFT", currentLeftNumber);
-                Log.i("RIGHT", currentRightNumber);
 
                 if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
                     float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(multiFloatingResult);
                 }else {
                     double multiplicationResult = Double.parseDouble(currentLeftNumber) * Double.parseDouble(currentRightNumber);
-                    Log.i("LOL", String.valueOf(multiplicationResult));
                     newValue = String.valueOf(multiplicationResult);
                 }
 
@@ -190,8 +183,6 @@ public class Calculator {
             }else if(operators.get(i).get("value").equals("-")) {
                 // handling floating..
                 if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
-                    Log.i("info", currentLeftNumber);
-                    Log.i("info", currentRightNumber);
                     float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(minusFloatinResult);
                 }else {
@@ -200,12 +191,8 @@ public class Calculator {
                 }
             }
 
-
-            // Replacement
-            if(i + 1 < operators.size()) {
-                if(currentLeftNumber.charAt(0) == '-') currentLeftNumber.replace('-', 'A');
-                if(currentRightNumber.charAt(0) == '-') currentRightNumber.replace('-', 'A');
-            }
+            // Replacement du signe A // MINUS
+            newValue = newValue.replace('-', 'A');
 
             //remove the bloc of calcul in formula: exemple -> "2 x 2"
             String calculBloc = currentLeftNumber + operators.get(i).get("value") + currentRightNumber;
@@ -228,10 +215,10 @@ public class Calculator {
             for(HashMap<String, String> o : operators) {
                 o.put("pos", String.valueOf(Double.parseDouble(o.get("pos")) - (calculBloc.length() - newValue.length())));
             }
-
         }
     }
 
+    //
     private void getLeftNumber() {
 
     }
@@ -255,7 +242,6 @@ public class Calculator {
                 listOperators.get(listOperators.size() - 1).put("value", currentComputation.get(i));// values : valeur du nombre ou autres
             }
         }
-
         if(toReplace) replace(listOperators);
     }
 
@@ -299,6 +285,11 @@ public class Calculator {
         return Constants.PLUS;
     }
 
+    private String formatSign(String str) {
+        if(str.contains("A"))
+            return str.replace('A', '-');
+        return str;
+    }
 
     /* use float instead.. */
     public void getPercent() {
@@ -320,10 +311,10 @@ public class Calculator {
 
     /* GETTER / SETTER */
     public String getFormula() {
-        return this.formula;
+        return this.formatSign(formula);
     }
 
     public String getResult() {
-        return this.result;
+        return this.formatSign(result);
     }
 }
