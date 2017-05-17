@@ -149,6 +149,27 @@ public class Calculator {
             currentLeftNumber = TextUtils.join("", arrcurrentLeftNumber);
             currentLeftNumber = replaceSign(currentLeftNumber);
             currentRightNumber = replaceSign(currentRightNumber);
+            double leftValue = Double.parseDouble(currentLeftNumber);
+            double rightValue = Double.parseDouble(currentRightNumber);
+            float leftValueFloat = Float.parseFloat(currentRightNumber);
+            float rightValueFloat = Float.parseFloat(currentRightNumber);
+
+            boolean isFloating = false;
+
+            if(currentLeftNumber.contains(".") || currentRightNumber.contains("."))
+                isFloating = true;
+
+            if(isFloating) {
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
+            }else {
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValue, rightValue));
+                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(Operation.substraction(leftValue, rightValue));
+                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(Operation.addition(leftValue, rightValue));
+                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(Operation.divison(leftValue, rightValue));
+            }
 
             // calculate
             if(operators.get(i).get("value").equals("x")) {
@@ -158,7 +179,7 @@ public class Calculator {
                     float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(multiFloatingResult);
                 }else {
-                    double multiplicationResult = Double.parseDouble(currentLeftNumber) * Double.parseDouble(currentRightNumber);
+                    double multiplicationResult = Operation.multiplcation(leftValue, rightValue);
                     newValue = String.valueOf(multiplicationResult);
                 }
 
@@ -168,7 +189,7 @@ public class Calculator {
                     float diviFloatingResult = Float.parseFloat(currentLeftNumber) / Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(diviFloatingResult);
                 }else {
-                    double divisionResult = Double.parseDouble(currentLeftNumber) / Double.parseDouble(currentRightNumber);
+                    double divisionResult =  Operation.divison(leftValue, rightValue);
                     newValue = String.valueOf(divisionResult);
                 }
             }else if(operators.get(i).get("value").equals("+")) {
@@ -177,7 +198,7 @@ public class Calculator {
                     float addFloatingResult = Float.parseFloat(currentLeftNumber) + Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(addFloatingResult);
                 }else {
-                    double additionResult = Double.parseDouble(currentLeftNumber) + Double.parseDouble(currentRightNumber);
+                    double additionResult =  Operation.addition(leftValue, rightValue);
                     newValue = String.valueOf(additionResult);
                 }
             }else if(operators.get(i).get("value").equals("-")) {
@@ -186,10 +207,12 @@ public class Calculator {
                     float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(minusFloatinResult);
                 }else {
-                    double minusResult = Double.parseDouble(currentLeftNumber) - Double.parseDouble(currentRightNumber);
+                    double minusResult =  Operation.substraction(leftValue, rightValue);
                     newValue = String.valueOf(minusResult);
                 }
             }
+
+            Log.i("Val", newValue);
 
             // Replacement du signe A // MINUS
             newValue = newValue.replace('-', 'A');
@@ -213,7 +236,7 @@ public class Calculator {
             newPosition = currentComputation.size() - newValue.length();
             //change the position of each operator
             for(HashMap<String, String> o : operators) {
-                o.put("pos", String.valueOf(Double.parseDouble(o.get("pos")) - (calculBloc.length() - newValue.length())));
+                o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
             }
         }
     }

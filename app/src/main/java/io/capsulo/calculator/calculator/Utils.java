@@ -1,6 +1,7 @@
 package io.capsulo.calculator.calculator;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,17 @@ public class Utils {
             return Double.parseDouble(str);
 
         return 0;
+    }
+
+    public static String doubleToString(double d) {
+        Double digit = d;
+        Integer integer = (int) d;
+        digit = (double) integer;
+        digit = digit - digit;
+        if(digit == 0.0) {
+            return String.valueOf((double) new Double(d).intValue());
+        }
+        return String.valueOf(d);
     }
 
     public static String arrayToString(ArrayList<String> arr){
