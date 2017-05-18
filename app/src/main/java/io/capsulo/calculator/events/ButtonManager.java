@@ -26,10 +26,10 @@ public class ButtonManager implements View.OnTouchListener {
     public static String IDSTRING;  // ID de la touche actuellement pressé  (String)
     public static String TAG;       // TAG de la touche actuellement pressé
     public static Button V;
-    private int backgroundColor;    // background color of button
+    private int backgroundColor;
 
     private ComputationActivity activity;
-    private Calculator calculator;  // Machine à calculer
+    private Calculator calculator;
 
     public ButtonManager(ComputationActivity activity) {
         calculator = new Calculator();
@@ -37,22 +37,21 @@ public class ButtonManager implements View.OnTouchListener {
         backgroundColor = 0;
     }
 
-    /* Add onclick method listener to the toucharea gridlayout */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        // Récupération des informations du bouttons
+        // Retrieve data
         ID = v.getId();
         IDSTRING = v.getResources().getResourceEntryName(ID);
         TAG = v.getTag().toString();
         V = (Button)v;
 
-        // get the alpha color background
+        // obtention de l'opacité de la couleur
         int color = Color.TRANSPARENT;
         Drawable background = v.getBackground();                                                    // "background" du bouton
         if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();   // couleur au format integer
         String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
 
-        // Changement de la couleur de fond
+        // Changement de la couleur
         if(event.getAction() == MotionEvent.ACTION_DOWN)
             this.handlingDown();
         if(event.getAction() == MotionEvent.ACTION_UP) {
@@ -96,13 +95,11 @@ public class ButtonManager implements View.OnTouchListener {
         }
     }
 
-    // Fonction des boutons
     private void updateValues() {
 
+        // Gestion des boutons spécial
         if(TAG.equals(ButtonString.TAG_SPECIAL)) {
-            // Gestion des boutons spécial
             switch (ID) {
-                // Gestions des touches spéciales
                 case Constants.CLEAR:
                     calculator.reset();
                     break;
@@ -118,9 +115,11 @@ public class ButtonManager implements View.OnTouchListener {
             }
         }
 
+        // Gestion des boutons d'opération
         else if(TAG.equals(ButtonString.TAG_OPERATION))
             calculator.updateCompute(V.getText().toString());
 
+            // Gestion des boutons numériques
         else if(TAG.equals(ButtonString.TAG_NUMERIC))
             calculator.addValues(V.getText().toString());
 
