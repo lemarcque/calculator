@@ -16,6 +16,7 @@ public class Calculator {
 
     private String formula;
     private String result;
+    private String lastOperation;
     private ArrayList<String> currentComputation;         // computetext area
     private ArrayList<String> currrentWritingNumber;      // resulttext area
     private boolean resetComputation;
@@ -32,6 +33,12 @@ public class Calculator {
         if(resetComputation) {
             resetComputation = false;
             reset();
+
+            if(lastOperation.length() > 0) {
+                for(int l = 0; l < lastOperation.length(); l++) {
+                    currrentWritingNumber.add(String.valueOf(lastOperation.charAt(l)));
+                }
+            }
         }
 
         currrentWritingNumber.add(values);
@@ -61,17 +68,20 @@ public class Calculator {
     /* Calculate formula */
     public void compute() {
         if(currentComputation.size() > 0) {
-            updateCompute("");  // Update the value of the current writer calcul
+            updateCompute("");
             trim();
+
             result = TextUtils.join("", currentComputation);
             currentComputation.clear();
-            resetComputation = true;
         }
         else if(currrentWritingNumber.size() > 0) {
             // if user doest write any formula, we show this number
             result = TextUtils.join("", currrentWritingNumber);
             reset();
         }
+
+        resetComputation = true;
+        lastOperation = result;
     }
 
     /* trouver un opérateur (signe) dans le calcul .. */

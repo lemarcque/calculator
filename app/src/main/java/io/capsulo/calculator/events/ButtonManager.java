@@ -11,6 +11,7 @@ import android.widget.Button;
 import io.capsulo.calculator.calculator.Calculator;
 import io.capsulo.calculator.R;
 import io.capsulo.calculator.activity.ComputationActivity;
+import io.capsulo.calculator.calculator.Constants;
 
 
 /**
@@ -25,6 +26,7 @@ public class ButtonManager implements View.OnTouchListener {
     public static String IDSTRING;  // ID de la touche actuellement pressé  (String)
     public static String TAG;       // TAG de la touche actuellement pressé
     public static Button V;
+    private int backgroundColor;    // background color of button
 
     private ComputationActivity activity;
     private Calculator calculator;  // Machine à calculer
@@ -32,6 +34,7 @@ public class ButtonManager implements View.OnTouchListener {
     public ButtonManager(ComputationActivity activity) {
         calculator = new Calculator();
         this.activity = activity;
+        backgroundColor = 0;
     }
 
     /* Add onclick method listener to the toucharea gridlayout */
@@ -50,57 +53,47 @@ public class ButtonManager implements View.OnTouchListener {
         String strColor = String.format("#%06X", 0xFFFFFF & color);                                 // Couleur au format string (6 digits)  - no alpha
 
         // Changement de la couleur de fond
-        changeColor(strColor, event);
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
+            this.handlingDown();
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            this.handlingUp();
+            this.updateValues();
+        }
+
+        // Affectation de la couleur
+        V.setBackgroundColor(backgroundColor);
 
         return true;
     }
 
-    /* Changement de la couleur de fond du bouton
-       dépendant du type d'événement de du type du boutons */
-    private void changeColor(String color, MotionEvent event) {
-
-        int colorBackground = 0;    // Couleur de fond des touches
+    private void handlingDown() {
+        int colorPressed = Color.parseColor("#33FFFFFF");
+        int colorPressedBtnEqual = Color.parseColor("#75e6f1");
 
         if(TAG.equals(ButtonString.TAG_NUMERIC) || TAG.equals(ButtonString.TAG_SPECIAL)) {
-            int colorPressed;                                                                       // Couleur de fond des touches pressées
-            int colorRelease;                                                                       // Couleur de fond des touches relâchées
-            int colorPressedBtnEqual;                                                               // Couleur de fond de la touche "égal" pressée
-            int colorReleaseBtnEqual;                                                               // Couleur de fond de la touche "égal" relâchée
+            if(ID == R.id.btn_equal) backgroundColor = colorPressedBtnEqual;
+            else backgroundColor = colorPressed;
+        }
+        if(TAG.equals(ButtonString.TAG_OPERATION)) {
+            backgroundColor = Color.parseColor("#66FFFFFF");
+        }
+    }
 
-            // Touche pressée
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                colorPressed = Color.parseColor("#33FFFFFF");                                       // 20% transparent
-                colorPressedBtnEqual = Color.parseColor("#75e6f1");                                 // +20% blanc
+    private void handlingUp() {
+        int colorRelease = Color.TRANSPARENT;
+        int colorReleaseBtnEqual = Color.parseColor("#3BDBEA");
 
-                if(ID == R.id.btn_equal)
-                    colorPressed = colorPressedBtnEqual;
-
-                colorBackground = colorPressed;
-            }
-            // Touche relâchée
-            else if(event.getAction() == MotionEvent.ACTION_UP) {
-                colorRelease = Color.TRANSPARENT;                                                   // 100% transparent
-                colorReleaseBtnEqual = Color.parseColor("#3BDBEA");                                 // -20% blanc
-                if(ID == R.id.btn_equal)
-                    colorRelease = colorReleaseBtnEqual;
-
-                updateValues();
-                colorBackground = colorRelease;
-            }
-
-        }else if(TAG.equals(ButtonString.TAG_OPERATION)) {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                //colorBackground = Color.parseColor("#66" + color.replace("#", ""));
-                colorBackground = Color.parseColor("#66FFFFFF");
-            }else if(event.getAction() == MotionEvent.ACTION_UP) {
-                //colorBackground = Color.parseColor("#33" + color.replace("#", ""));
-                colorBackground = Color.parseColor("#33FFFFFF");
-                updateCompute();
-            }
+        if(TAG.equals(ButtonString.TAG_NUMERIC) || TAG.equals(ButtonString.TAG_SPECIAL)) {
+            if(ID == R.id.btn_equal) backgroundColor = colorReleaseBtnEqual;
+            else backgroundColor = colorRelease;
+        }
+        if(TAG.equals(ButtonString.TAG_OPERATION)) {
+            backgroundColor = Color.parseColor("#66FFFFFF");
         }
 
-        // Affectation de la couleur
-        V.setBackgroundColor(colorBackground);
+        if(TAG.equals(ButtonString.TAG_OPERATION)) {
+            backgroundColor = Color.parseColor("#33FFFFFF");
+        }
     }
 
     // Fonction des boutons
@@ -109,30 +102,29 @@ public class ButtonManager implements View.OnTouchListener {
         if(TAG.equals(ButtonString.TAG_SPECIAL)) {
             // Gestion des boutons spécial
             switch (ID) {
-                // Gestions des touches des spéciales
-                case R.id.btn_clear:
+                // Gestions des touches spéciales
+                case Constants.CLEAR:
                     calculator.reset();
                     break;
-                case R.id.btn_plusminus:
+                case Constants.PLUSMINUS:
                     calculator.setSign();
                     break;
-                case R.id.btn_percent:
+                case Constants.PERCENT:
                     calculator.getPercent();
                     break;
-                case R.id.btn_equal:
+                case Constants.EQUAL:
                     calculator.compute();
                     break;
             }
-
-            this.updateInterface();
-        }else {
-            calculator.addValues(V.getText().toString());
-            this.updateInterface();
         }
-    }
 
-    private void updateCompute() {
-        calculator.updateCompute(V.getText().toString());
+        else if(TAG.equals(ButtonString.TAG_OPERATION))
+            calculator.updateCompute(V.getText().toString());
+
+        else if(TAG.equals(ButtonString.TAG_NUMERIC))
+            calculator.addValues(V.getText().toString());
+
+        this.updateInterface();
     }
 
     private void updateInterface() {
