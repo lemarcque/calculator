@@ -78,7 +78,7 @@ public class Calculator {
 
             ComplexOperation complexOperation = new ComplexOperation(currentComputation);
             double complexOperationResult = complexOperation.getResult();
-
+            Log.i("_OK_", String.valueOf(complexOperationResult));
             trim();
 
             //result = String.valueOf(complexOperation);
@@ -241,11 +241,15 @@ public class Calculator {
 
             //remove the bloc of calcul in formula: exemple -> "2 x 2"
             String calculBloc = currentLeftNumber + operators.get(i).get("value") + currentRightNumber;
+            Log.i("b", calculBloc);
             int deletePos = -1;
             for(int j = 0; j < calculBloc.length(); j++) {
                 if(deletePos == -1) {
                     deletePos = Integer.parseInt(operators.get(i).get("pos")) - currentLeftNumber.length();
                 }
+                Log.i("c", currentComputation.toString());
+                Log.i("pos", operators.get(i).get("pos"));
+                Log.i("pos", currentLeftNumber);
                 currentComputation.remove(deletePos);
             }
 

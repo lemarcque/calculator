@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import io.capsulo.calculator.calculator.Constants;
 import io.capsulo.calculator.calculator.Digit;
+import io.capsulo.calculator.calculator.Utils;
 
 /**
  * @author lemarcque
@@ -50,7 +51,6 @@ public class ComplexBlock extends BaseOperation {
 
                 if(verification) {
                     String values = String.valueOf(formula.charAt(position));
-
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
                         if(sens == 0) currentLeftNumber.add(values);
                         if(sens == 1) currentRightNumber.add(values);
@@ -69,27 +69,34 @@ public class ComplexBlock extends BaseOperation {
             isValueNull = false;
         }
 
-
         Collections.reverse(currentLeftNumber);
         Collections.reverse(currentRightNumber);
         strLeftValue = Digit.replaceSign(TextUtils.join("", currentLeftNumber));
         strRightValue = Digit.replaceSign(TextUtils.join("", currentRightNumber));
         if(operator.get("value").equals("x")) operator.put("value", Constants.MULTIPLE_OPERATOR);
-        Log.i("a", strLeftValue);
-        Log.i("b", strRightValue);
-        Log.i("d", String.valueOf(Double.parseDouble(strLeftValue)));
-        Log.i("d", String.valueOf(Double.parseDouble(strRightValue)));
+
+        Log.i("op", operator.get("value"));
+        Log.i("op", operator.get("value"));
+        Log.i("op", operator.get("pos"));
+        Log.i("LOL3", strRightValue);
+        Log.i("LOL3", strRightValue);
         super.setFirstValue(Double.parseDouble(strLeftValue));
         super.setSecondeValue(Double.parseDouble(strRightValue));
         super.setOperator(operator.get("value"));
+        this.setFormula();
     }
 
     public double getLeftValue() {
-        return firstValue;
+        return super.getFirstValue();
     }
 
     public double getRightValue() {
-        return secondeValue;
+        return super.getSecondeValue();
+    }
+
+    @Override
+    protected void setFormula() {
+        super.formula = Utils.doubleToString(getLeftValue()) + super.getOperator() + Utils.doubleToString(getRightValue());
     }
 
 }

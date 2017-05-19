@@ -14,7 +14,7 @@ public class Constants {
     final public static String PLUS_OPERATOR = "+";
     final public static String MINUS_OPERATOR = "-";
     final public static String MULTIPLE_OPERATOR = "x";
-    final public static String DIVIDE_OPERATOR = "/";
+    final public static String DIVIDE_OPERATOR = "÷";
 
     final public static String ADITION = "addition";
     final public static String SUBSTRACTION = "substraction";

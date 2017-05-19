@@ -29,9 +29,20 @@ public class Utils {
         digit = (double) integer;
         digit = digit - digit;
         if(digit == 0.0) {
-            return String.valueOf((double) new Double(d).intValue());
+            return String.valueOf(new Double(d).intValue());
         }
         return String.valueOf(d);
+    }
+
+    public static double removeDecimal(double d) {
+        Double digit = d;
+        Integer integer = (int) d;
+        digit = (double) integer;
+        digit = digit - digit;
+        if(digit == 0.0) {
+            return new Double(d).intValue();
+        }
+        return d;
     }
 
     public static String arrayToString(ArrayList<String> arr){

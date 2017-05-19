@@ -21,7 +21,8 @@ public class DivideOperation extends ComplexBlock {
         return firstValue / secondeValue;
     }
 
-    private void setFormula() {
+    @Override
+    protected void setFormula() {
         this.formula = String.valueOf(firstValue + "/" + secondeValue);
     }
 }

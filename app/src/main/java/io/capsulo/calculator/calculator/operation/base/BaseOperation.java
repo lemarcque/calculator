@@ -43,13 +43,19 @@ public class BaseOperation {
 
     public void setFirstValue(double v) {
         firstValue = v;
+        this.setFormula();
     }
 
     public void setSecondeValue(double v) {
         secondeValue = v;
+        this.setFormula();
     }
 
     public void setOperator(String o) {
         this.operator = o;
+    }
+
+    protected void setFormula() {
+
     }
 }

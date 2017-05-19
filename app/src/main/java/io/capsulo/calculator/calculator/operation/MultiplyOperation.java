@@ -11,6 +11,7 @@ import io.capsulo.calculator.calculator.operation.base.ComplexBlock;
 
 public class MultiplyOperation extends ComplexBlock {
 
+
     public MultiplyOperation(double firstValue, double secondValue) {
         super(firstValue, secondValue);
         this.type = Constants.MULTIPLICATION;
@@ -22,8 +23,10 @@ public class MultiplyOperation extends ComplexBlock {
         return firstValue * secondeValue;
     }
 
-    private void setFormula() {
+    @Override
+    protected void setFormula() {
         this.formula = String.valueOf(firstValue + "*" + secondeValue);
     }
+
 
 }
