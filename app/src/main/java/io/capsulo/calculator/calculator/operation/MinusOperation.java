@@ -1,19 +1,19 @@
 package io.capsulo.calculator.calculator.operation;
 
 import io.capsulo.calculator.calculator.Constants;
-import io.capsulo.calculator.calculator.operation.base.BaseOperation;
+import io.capsulo.calculator.calculator.operation.base.ComplexBlock;
 
 /**
  * @author lemarcque
  * Description
  */
 
-public class MinusOperation extends BaseOperation {
+public class MinusOperation extends ComplexBlock {
 
     public MinusOperation(double firstValue, double secondValue) {
         super(firstValue, secondValue);
         this.type = Constants.SUBSTRACTION;
-        this.operator = Constants.MINUS_OPERATOR;
+        super.setOperator(Constants.MINUS_OPERATOR);
         this.setFormula();
     }
 

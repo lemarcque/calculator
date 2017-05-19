@@ -1,19 +1,19 @@
 package io.capsulo.calculator.calculator.operation;
 
 import io.capsulo.calculator.calculator.Constants;
-import io.capsulo.calculator.calculator.operation.base.BaseOperation;
+import io.capsulo.calculator.calculator.operation.base.ComplexBlock;
 
 /**
  * @author lemarcque
  * Description
  */
 
-public class DivideOperation extends BaseOperation {
+public class DivideOperation extends ComplexBlock {
 
     public DivideOperation(double firstValue, double secondValue) {
         super(firstValue, secondValue);
         this.type = Constants.DIVISION;
-        this.operator = Constants.DIVIDE_OPERATOR;
+        super.setOperator(Constants.DIVIDE_OPERATOR);
         this.setFormula();
     }
 

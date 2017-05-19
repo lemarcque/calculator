@@ -2,18 +2,19 @@ package io.capsulo.calculator.calculator.operation;
 
 import io.capsulo.calculator.calculator.Constants;
 import io.capsulo.calculator.calculator.operation.base.BaseOperation;
+import io.capsulo.calculator.calculator.operation.base.ComplexBlock;
 
 /**
  * @author lemarcque
  * Description
  */
 
-public class MultiplyOperation extends BaseOperation {
+public class MultiplyOperation extends ComplexBlock {
 
     public MultiplyOperation(double firstValue, double secondValue) {
         super(firstValue, secondValue);
         this.type = Constants.MULTIPLICATION;
-        this.operator = Constants.MULTIPLE_OPERATOR;
+        super.setOperator(Constants.MULTIPLE_OPERATOR);
         this.setFormula();
     }
 

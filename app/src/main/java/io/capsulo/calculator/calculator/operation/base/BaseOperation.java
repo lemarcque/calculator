@@ -10,7 +10,11 @@ public class BaseOperation {
     protected String formula;
     protected double firstValue;
     protected double secondeValue;
-    protected String operator;
+    private String operator;
+
+    public BaseOperation() {
+
+    }
 
     public BaseOperation(double firstValue, double secondeValue) {
         this.firstValue = firstValue;
@@ -31,5 +35,21 @@ public class BaseOperation {
 
     public String getOperator() {
         return this.operator;
+    }
+
+    public double getResult() {
+        return 0;
+    }
+
+    public void setFirstValue(double v) {
+        firstValue = v;
+    }
+
+    public void setSecondeValue(double v) {
+        secondeValue = v;
+    }
+
+    public void setOperator(String o) {
+        this.operator = o;
     }
 }
