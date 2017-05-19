@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import io.capsulo.calculator.calculator.operation.ComplexOperation;
+import io.capsulo.calculator.calculator.operation.DivideOperation;
+import io.capsulo.calculator.calculator.operation.MinusOperation;
+import io.capsulo.calculator.calculator.operation.MultiplyOperation;
+import io.capsulo.calculator.calculator.operation.PlusOperation;
+
 /**
  * @author lemarcque
  * Description : Classe permettant d'effectuer des opérations mathématiques
@@ -69,13 +75,18 @@ public class Calculator {
     public void compute() {
         if(currentComputation.size() > 0) {
             updateCompute("");
+
+            ComplexOperation complexOperation = new ComplexOperation(currentComputation);
+            double complexOperationResult = complexOperation.getResult();
+
             trim();
 
+            //result = String.valueOf(complexOperation);
             result = TextUtils.join("", currentComputation);
             currentComputation.clear();
         }
         else if(currrentWritingNumber.size() > 0) {
-            // if user doest write any formula, we show this number
+            // if user doesnt write any formula, we show this number
             result = TextUtils.join("", currrentWritingNumber);
             reset();
         }
@@ -108,8 +119,8 @@ public class Calculator {
         for (int i = 0; i < operators.size(); i++) {
             boolean leftValuesNotNull = true;
             boolean rightValuesNotNull = true;
-            int leftNumber;                     //  Le nombre se toruvant à la droite de l'opérateur
-            int rightNumber;                    // Le nombre se toruvant à la droite de l'opérateur
+            int leftNumber;
+            int rightNumber;
             int index = 0;
 
             ArrayList<String> arrcurrentLeftNumber = new ArrayList<String>();
@@ -117,12 +128,14 @@ public class Calculator {
             String currentRightNumber = "";
             String newValue =  "";
             int newPosition = -1;
+            int minPositionValue = 0;
+            int maxPositionValue = currentComputation.size();
 
             while(leftValuesNotNull) {
                 index--;
                 int newpos = Integer.parseInt(operators.get(i).get("pos")) + index;     // Position de la valeur
 
-                if(newpos >= 0) {
+                if(newpos >= minPositionValue) {
                     String values = currentComputation.get(newpos);
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
                         arrcurrentLeftNumber.add(values);
@@ -140,7 +153,7 @@ public class Calculator {
                 index++;
                 int newpos = Integer.parseInt(operators.get(i).get("pos")) + index;     // Position de la valeur
 
-                if(newpos < currentComputation.size()) {
+                if(newpos < maxPositionValue) {
                     String values = currentComputation.get(newpos);
                     if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
                         currentRightNumber += values;
@@ -152,7 +165,6 @@ public class Calculator {
                     rightValuesNotNull = false;
                     index = 0;
                 }
-
             }
 
             Collections.reverse(arrcurrentLeftNumber);
@@ -170,15 +182,15 @@ public class Calculator {
                 isFloating = true;
 
             if(isFloating) {
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValueFloat, rightValueFloat));
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(new MultiplyOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(new DivideOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(new PlusOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(new MinusOperation(leftValue, rightValue).getResult());
             }else {
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(Operation.multiplcation(leftValue, rightValue));
-                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(Operation.substraction(leftValue, rightValue));
-                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(Operation.addition(leftValue, rightValue));
-                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(Operation.divison(leftValue, rightValue));
+                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(new MultiplyOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(new DivideOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(new PlusOperation(leftValue, rightValue).getResult());
+                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(new MinusOperation(leftValue, rightValue).getResult());
             }
 
             // calculate
@@ -189,8 +201,8 @@ public class Calculator {
                     float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(multiFloatingResult);
                 }else {
-                    double multiplicationResult = Operation.multiplcation(leftValue, rightValue);
-                    newValue = String.valueOf(multiplicationResult);
+                    MultiplyOperation multiplicationResult = new MultiplyOperation(leftValue, rightValue);
+                    newValue = String.valueOf(multiplicationResult.getResult());
                 }
 
             }else if(operators.get(i).get("value").equals("÷")) {
@@ -199,8 +211,8 @@ public class Calculator {
                     float diviFloatingResult = Float.parseFloat(currentLeftNumber) / Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(diviFloatingResult);
                 }else {
-                    double divisionResult =  Operation.divison(leftValue, rightValue);
-                    newValue = String.valueOf(divisionResult);
+                    DivideOperation divideOperation = new DivideOperation(leftValue, rightValue);
+                    newValue = String.valueOf(divideOperation.getResult());
                 }
             }else if(operators.get(i).get("value").equals("+")) {
                 // handling floating..
@@ -208,8 +220,8 @@ public class Calculator {
                     float addFloatingResult = Float.parseFloat(currentLeftNumber) + Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(addFloatingResult);
                 }else {
-                    double additionResult =  Operation.addition(leftValue, rightValue);
-                    newValue = String.valueOf(additionResult);
+                    PlusOperation plusOperation= new PlusOperation(leftValue, rightValue);
+                    newValue = String.valueOf(plusOperation.getResult());
                 }
             }else if(operators.get(i).get("value").equals("-")) {
                 // handling floating..
@@ -217,8 +229,8 @@ public class Calculator {
                     float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
                     newValue = String.valueOf(minusFloatinResult);
                 }else {
-                    double minusResult =  Operation.substraction(leftValue, rightValue);
-                    newValue = String.valueOf(minusResult);
+                    MinusOperation minusOperation = new MinusOperation(leftValue, rightValue);
+                    newValue = String.valueOf(minusOperation.getResult());
                 }
             }
 
@@ -251,15 +263,6 @@ public class Calculator {
         }
     }
 
-    //
-    private void getLeftNumber() {
-
-    }
-
-    private void getRightNumber() {
-
-    }
-
     /* Cette fonction va simplement effectuer les additions et les soustractions
        Si il n y a aucune opération ä effectuer, il ne fait rien
      */
@@ -283,6 +286,7 @@ public class Calculator {
         currrentWritingNumber.clear();
         result = "";
         formula = "";
+        lastOperation = "";
     }
 
     private String replaceSign(String digit) {

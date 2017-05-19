@@ -6,4 +6,5 @@ package io.capsulo.calculator.calculator.operation.base;
 
 public class ComplexBlock {
 
+
 }

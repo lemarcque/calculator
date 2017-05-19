@@ -1,8 +1,11 @@
 package io.capsulo.calculator.calculator;
 
 /**
- * Created by lemarcque on 19.05.17.
+ * @author lemarcque
+ * Descrption Extension de laclasse Calculator
  */
 
 public class CalculatorUtils {
+
+
 }
