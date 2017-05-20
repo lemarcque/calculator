@@ -35,15 +35,18 @@ public class ComplexBlock extends BaseOperation {
         boolean verification = false;
         boolean isValueNull = false;
 
-        String strLeftValue;
-        String strRightValue;
+        String strLeftValue = "";
+        String strRightValue = "";
         ArrayList<String> currentLeftNumber = new ArrayList<String>();
         ArrayList<String> currentRightNumber = new ArrayList<String>();
+        boolean initial = true;
+        Log.i("formula", formula);
+        Log.i("position", String.valueOf(operator.get("pos")));
+        Log.i("value", String.valueOf(operator.get("value")));
 
         for(int sens = 0; sens < 2; sens++) {
 
             while(!isValueNull) {
-
                 index += (sens == 0) ? -1 : 1;
                 position = Integer.parseInt(operator.get("pos")) + index;
                 if(sens == 0) verification = (position >= minPositionValue);
@@ -56,8 +59,8 @@ public class ComplexBlock extends BaseOperation {
                         if(sens == 1) currentRightNumber.add(values);
                         //continue;   // should work normally
                     }else {
-                        isValueNull = true;
                         index = 0;
+                        isValueNull = true;
                     }
                 }else {
                     index = 0;
@@ -69,17 +72,14 @@ public class ComplexBlock extends BaseOperation {
             isValueNull = false;
         }
 
+        Log.i("avant", currentLeftNumber.toString());
+        Log.i("apres", currentRightNumber.toString());
+
         Collections.reverse(currentLeftNumber);
-        Collections.reverse(currentRightNumber);
         strLeftValue = Digit.replaceSign(TextUtils.join("", currentLeftNumber));
         strRightValue = Digit.replaceSign(TextUtils.join("", currentRightNumber));
         if(operator.get("value").equals("x")) operator.put("value", Constants.MULTIPLE_OPERATOR);
 
-        Log.i("op", operator.get("value"));
-        Log.i("op", operator.get("value"));
-        Log.i("op", operator.get("pos"));
-        Log.i("LOL3", strRightValue);
-        Log.i("LOL3", strRightValue);
         super.setFirstValue(Double.parseDouble(strLeftValue));
         super.setSecondeValue(Double.parseDouble(strRightValue));
         super.setOperator(operator.get("value"));

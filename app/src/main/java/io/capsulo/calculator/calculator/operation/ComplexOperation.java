@@ -82,7 +82,6 @@ public class ComplexOperation implements Operation{
                     break;
             }
 
-
             // Gestion des flottants later ....
 
             // Replacement du signe A // MINUS
@@ -97,11 +96,8 @@ public class ComplexOperation implements Operation{
             int delPos = -1;
             for(int j = 0; j < bloc.length(); j++) {
                 if(delPos == -1) delPos = Integer.parseInt(operators.get(i).get("pos")) - leftValue.length();
-                Log.i("-", currentFormula.toString());
                 currentFormula.remove(delPos);
             }
-
-            Log.i("..", currentFormula.toString());
 
             // insert newvalue in the formla: exemple -> "4"
             for(int k = 0; k < resultValue.length(); k ++) {
@@ -109,12 +105,19 @@ public class ComplexOperation implements Operation{
                 currentFormula.add(delPos, String.valueOf(reverseValue.charAt(k)));
             }
 
-            Log.i(";;", currentFormula.toString());
+            Log.i("finreplement", currentFormula.toString());
 
             int position = currentFormula.size() - resultValue.length();
             //change the position of each operator
-            for(HashMap<String, String> o : operators) {
+            /*for(HashMap<String, String> o : operators) {
+                Log.i("position?", String.valueOf(Integer.parseInt(o.get("pos")) - (bloc.length() - resultValue.length())));
                 o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (bloc.length() - resultValue.length())));
+            }*/
+
+            Log.i("value.", bloc);
+            Log.i("value.", bloc);
+            for(int l = 0; l < operators.size(); l ++) {
+                operators.get(l).put("pos", String.valueOf(Integer.parseInt(operators.get(l).get("pos")) - (bloc.length() - resultValue.length())));
             }
 
             complexBlocks.add(complexBlock);
