@@ -23,14 +23,17 @@ public class ComplexOperation implements Operation{
     private ArrayList<HashMap<String, String>> listOperatorsI;
     private ArrayList<HashMap<String, String>> listOperatorsII;
     private ArrayList<ComplexBlock> complexBlocks;
+    private int integerOffset;
+    private int lastOffsetPos;
 
     public ComplexOperation(ArrayList<String> formula) {
         this.currentFormula = formula;
-        Log.i("formula vlaue", formula.toString());
+        Log.i("BASE FORMULA", formula.toString());
         listOperators = new ArrayList<HashMap<String, String>>();
         listOperatorsI = new ArrayList<HashMap<String, String>>();
         listOperatorsII = new ArrayList<HashMap<String, String>>();
         complexBlocks = new ArrayList<ComplexBlock>();
+        integerOffset = 0;
     }
 
     public double getResult() {
@@ -60,6 +63,13 @@ public class ComplexOperation implements Operation{
     }
 
     private void trim(ArrayList<HashMap<String, String>> operators) {
+        if(operators.size() > 0) {
+            for(HashMap<String, String> op : operators) {
+                if(lastOffsetPos < Integer.parseInt(op.get("pos")))
+                    op.put("pos", String.valueOf(Integer.parseInt(op.get("pos")) - integerOffset));
+            }
+        }
+
         for(int i = 0; i < operators.size(); i++) {
             ComplexBlock complexBlock = new ComplexBlock();
             complexBlock.calculValues(TextUtils.join("", currentFormula), operators.get(i));
@@ -67,7 +77,6 @@ public class ComplexOperation implements Operation{
 
             switch (complexBlock.getOperator()) {
                 //result = ((MultiplyOperation) complexBlock).getResult();    -   casting not working
-
                 case Constants.PLUS_OPERATOR:
                     result = new PlusOperation(complexBlock.getLeftValue(), complexBlock.getRightValue()).getResult();
                     break;
@@ -89,7 +98,6 @@ public class ComplexOperation implements Operation{
             resultValue = Digit.replaceSignA(resultValue);
             String leftValue = Utils.doubleToString(complexBlock.getLeftValue());
 
-
             //remove the bloc of calcul in formula: exemple -> "2 x 2"
             String bloc = String.valueOf(complexBlock.getFormula());
 
@@ -105,19 +113,15 @@ public class ComplexOperation implements Operation{
                 currentFormula.add(delPos, String.valueOf(reverseValue.charAt(k)));
             }
 
-            Log.i("finreplement", currentFormula.toString());
-
-            int position = currentFormula.size() - resultValue.length();
             //change the position of each operator
-            /*for(HashMap<String, String> o : operators) {
-                Log.i("position?", String.valueOf(Integer.parseInt(o.get("pos")) - (bloc.length() - resultValue.length())));
-                o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (bloc.length() - resultValue.length())));
-            }*/
+            for(HashMap<String, String> op : operators) {
+                int offset = (bloc.length() - resultValue.length());
+                integerOffset += offset;
+                int updatedPos = Integer.parseInt(op.get("pos")) - offset;
+                if(op.get("value").equals(Constants.MULTIPLE_OPERATOR) || op.get("value").equals(Constants.DIVIDE_OPERATOR))
+                    lastOffsetPos = Integer.parseInt(op.get("pos"));
 
-            Log.i("value.", bloc);
-            Log.i("value.", bloc);
-            for(int l = 0; l < operators.size(); l ++) {
-                operators.get(l).put("pos", String.valueOf(Integer.parseInt(operators.get(l).get("pos")) - (bloc.length() - resultValue.length())));
+                op.put("pos", String.valueOf(updatedPos));
             }
 
             complexBlocks.add(complexBlock);

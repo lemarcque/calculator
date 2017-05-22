@@ -78,10 +78,9 @@ public class Calculator {
 
             ComplexOperation complexOperation = new ComplexOperation(currentComputation);
             double complexOperationResult = complexOperation.getResult();
-            Log.i("_OK_", String.valueOf(complexOperationResult));
-            trim();
+            Log.i("OK_VIA_COMPLEXOPERATION", String.valueOf(complexOperationResult));
 
-            //result = String.valueOf(complexOperation);
+            result = String.valueOf(complexOperation);
             result = TextUtils.join("", currentComputation);
             currentComputation.clear();
         }
@@ -95,195 +94,6 @@ public class Calculator {
         lastOperation = result;
     }
 
-    /* trouver un opérateur (signe) dans le calcul .. */
-    private void trim() {
-        ArrayList<HashMap<String, String>> listOperators = new ArrayList<HashMap<String, String>>();
-        boolean toReplace = false;
-
-        for(int i = 0; i < currentComputation.size(); i++) {
-            if(currentComputation.get(i).toLowerCase().equals("x") || currentComputation.get(i).equals("÷")) {
-                toReplace = true;
-                listOperators.add(new HashMap<String, String>());
-                listOperators.get(listOperators.size() - 1).put("pos", String.valueOf(i));          // pos : position dans le tableau
-                listOperators.get(listOperators.size() - 1).put("value", currentComputation.get(i));// values : valeur du nombre ou autres
-            }
-        }
-
-        // Si la variable toReplace equals true, alors il faut "do stuff"
-        if(toReplace)
-            replace(listOperators);
-        calculate();
-    }
-
-    private void replace(ArrayList<HashMap<String, String>> operators) {
-        for (int i = 0; i < operators.size(); i++) {
-            boolean leftValuesNotNull = true;
-            boolean rightValuesNotNull = true;
-            int leftNumber;
-            int rightNumber;
-            int index = 0;
-
-            ArrayList<String> arrcurrentLeftNumber = new ArrayList<String>();
-            String currentLeftNumber = "";
-            String currentRightNumber = "";
-            String newValue =  "";
-            int newPosition = -1;
-            int minPositionValue = 0;
-            int maxPositionValue = currentComputation.size();
-
-            while(leftValuesNotNull) {
-                index--;
-                int newpos = Integer.parseInt(operators.get(i).get("pos")) + index;     // Position de la valeur
-
-                if(newpos >= minPositionValue) {
-                    String values = currentComputation.get(newpos);
-                    if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
-                        arrcurrentLeftNumber.add(values);
-                    }else {
-                        leftValuesNotNull = false;
-                        index = 0;
-                    }
-                }else {
-                    leftValuesNotNull = false;
-                    index = 0;
-                }
-            }
-
-            while(rightValuesNotNull) {
-                index++;
-                int newpos = Integer.parseInt(operators.get(i).get("pos")) + index;     // Position de la valeur
-
-                if(newpos < maxPositionValue) {
-                    String values = currentComputation.get(newpos);
-                    if(!values.equals("x") && !values.equals("÷") && !values.equals("+") && !values.equals("-")) {
-                        currentRightNumber += values;
-                    }else {
-                        rightValuesNotNull = false;
-                        index = 0;
-                    }
-                }else {
-                    rightValuesNotNull = false;
-                    index = 0;
-                }
-            }
-
-            Collections.reverse(arrcurrentLeftNumber);
-            currentLeftNumber = TextUtils.join("", arrcurrentLeftNumber);
-            currentLeftNumber = replaceSign(currentLeftNumber);
-            currentRightNumber = replaceSign(currentRightNumber);
-            double leftValue = Double.parseDouble(currentLeftNumber);
-            double rightValue = Double.parseDouble(currentRightNumber);
-            float leftValueFloat = Float.parseFloat(currentRightNumber);
-            float rightValueFloat = Float.parseFloat(currentRightNumber);
-
-            boolean isFloating = false;
-
-            if(currentLeftNumber.contains(".") || currentRightNumber.contains("."))
-                isFloating = true;
-
-            if(isFloating) {
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(new MultiplyOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(new DivideOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(new PlusOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(new MinusOperation(leftValue, rightValue).getResult());
-            }else {
-                if(operators.get(i).get("value").equals("x")) newValue = Utils.doubleToString(new MultiplyOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("÷")) newValue = Utils.doubleToString(new DivideOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("+")) newValue = Utils.doubleToString(new PlusOperation(leftValue, rightValue).getResult());
-                if(operators.get(i).get("value").equals("-")) newValue = Utils.doubleToString(new MinusOperation(leftValue, rightValue).getResult());
-            }
-
-            // calculate
-            if(operators.get(i).get("value").equals("x")) {
-                // handling floating..
-
-                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
-                    float multiFloatingResult = Float.parseFloat(currentLeftNumber) * Float.parseFloat(currentRightNumber);
-                    newValue = String.valueOf(multiFloatingResult);
-                }else {
-                    MultiplyOperation multiplicationResult = new MultiplyOperation(leftValue, rightValue);
-                    newValue = String.valueOf(multiplicationResult.getResult());
-                }
-
-            }else if(operators.get(i).get("value").equals("÷")) {
-                // handling floating..
-                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
-                    float diviFloatingResult = Float.parseFloat(currentLeftNumber) / Float.parseFloat(currentRightNumber);
-                    newValue = String.valueOf(diviFloatingResult);
-                }else {
-                    DivideOperation divideOperation = new DivideOperation(leftValue, rightValue);
-                    newValue = String.valueOf(divideOperation.getResult());
-                }
-            }else if(operators.get(i).get("value").equals("+")) {
-                // handling floating..
-                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
-                    float addFloatingResult = Float.parseFloat(currentLeftNumber) + Float.parseFloat(currentRightNumber);
-                    newValue = String.valueOf(addFloatingResult);
-                }else {
-                    PlusOperation plusOperation= new PlusOperation(leftValue, rightValue);
-                    newValue = String.valueOf(plusOperation.getResult());
-                }
-            }else if(operators.get(i).get("value").equals("-")) {
-                // handling floating..
-                if(currentLeftNumber.contains(".") || currentRightNumber.contains(".")) {
-                    float minusFloatinResult = Float.parseFloat(currentLeftNumber) - Float.parseFloat(currentRightNumber);
-                    newValue = String.valueOf(minusFloatinResult);
-                }else {
-                    MinusOperation minusOperation = new MinusOperation(leftValue, rightValue);
-                    newValue = String.valueOf(minusOperation.getResult());
-                }
-            }
-
-            Log.i("Val", newValue);
-
-            // Replacement du signe A // MINUS
-            newValue = newValue.replace('-', 'A');
-
-            //remove the bloc of calcul in formula: exemple -> "2 x 2"
-            String calculBloc = currentLeftNumber + operators.get(i).get("value") + currentRightNumber;
-            Log.i("b", calculBloc);
-            int deletePos = -1;
-            for(int j = 0; j < calculBloc.length(); j++) {
-                if(deletePos == -1) {
-                    deletePos = Integer.parseInt(operators.get(i).get("pos")) - currentLeftNumber.length();
-                }
-                Log.i("c", currentComputation.toString());
-                Log.i("pos", operators.get(i).get("pos"));
-                Log.i("pos", currentLeftNumber);
-                currentComputation.remove(deletePos);
-            }
-
-            // insert newvalue in the formla: exemple -> "4"
-            for(int k = 0; k < newValue.length(); k ++) {
-                String reverseValue = new StringBuilder(newValue).reverse().toString();     // New value reverted
-                currentComputation.add(deletePos, String.valueOf(reverseValue.charAt(k)));
-            }
-
-            newPosition = currentComputation.size() - newValue.length();
-            //change the position of each operator
-            for(HashMap<String, String> o : operators) {
-                o.put("pos", String.valueOf(Integer.parseInt(o.get("pos")) - (calculBloc.length() - newValue.length())));
-            }
-        }
-    }
-
-    /* Cette fonction va simplement effectuer les additions et les soustractions
-       Si il n y a aucune opération ä effectuer, il ne fait rien
-     */
-    private void calculate() {
-        ArrayList<HashMap<String, String>> listOperators = new ArrayList<HashMap<String, String>>();
-        boolean toReplace = false;
-
-        for(int i = 0; i < currentComputation.size(); i++) {
-            if(currentComputation.get(i).toLowerCase().equals("+") || currentComputation.get(i).equals("-")) {
-                toReplace = true;
-                listOperators.add(new HashMap<String, String>());
-                listOperators.get(listOperators.size() - 1).put("pos", String.valueOf(i));          // pos : position dans le tableau
-                listOperators.get(listOperators.size() - 1).put("value", currentComputation.get(i));// values : valeur du nombre ou autres
-            }
-        }
-        if(toReplace) replace(listOperators);
-    }
 
     public void reset() {
         currentComputation.clear();
@@ -291,15 +101,6 @@ public class Calculator {
         result = "";
         formula = "";
         lastOperation = "";
-    }
-
-    private String replaceSign(String digit) {
-        if(digit.length() > 0) {
-            if(digit.charAt(0) == 'A')
-                return digit.replace('A', '-');
-        }
-
-        return digit;
     }
 
     public void setSign() {
@@ -326,12 +127,6 @@ public class Calculator {
         return Constants.PLUS;
     }
 
-    private String formatSign(String str) {
-        if(str.contains("A"))
-            return str.replace('A', '-');
-        return str;
-    }
-
     /* use float instead.. */
     public void getPercent() {
         /*if(currrentWritingNumber.size() > 0) {
@@ -352,10 +147,10 @@ public class Calculator {
 
     /* GETTER / SETTER */
     public String getFormula() {
-        return this.formatSign(formula);
+        return Digit.replaceSign(formula);
     }
 
     public String getResult() {
-        return this.formatSign(result);
+        return Digit.replaceSign(result);
     }
 }

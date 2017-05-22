@@ -40,9 +40,6 @@ public class ComplexBlock extends BaseOperation {
         ArrayList<String> currentLeftNumber = new ArrayList<String>();
         ArrayList<String> currentRightNumber = new ArrayList<String>();
         boolean initial = true;
-        Log.i("formula", formula);
-        Log.i("position", String.valueOf(operator.get("pos")));
-        Log.i("value", String.valueOf(operator.get("value")));
 
         for(int sens = 0; sens < 2; sens++) {
 
@@ -71,9 +68,6 @@ public class ComplexBlock extends BaseOperation {
             index = 0;
             isValueNull = false;
         }
-
-        Log.i("avant", currentLeftNumber.toString());
-        Log.i("apres", currentRightNumber.toString());
 
         Collections.reverse(currentLeftNumber);
         strLeftValue = Digit.replaceSign(TextUtils.join("", currentLeftNumber));
