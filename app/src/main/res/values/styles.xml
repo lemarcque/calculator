@@ -14,9 +14,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <!-- computationactivity_layout -->
-
     <!-- computation area -->
     <style name="ComputeText" parent="fontStyle">
         <item name="android:textColor">@android:color/white</item>
@@ -35,7 +33,7 @@
 
         </style>
         <style name="ButtonEqualDefault" parent="Button">
-            <item name="android:background">@color/colorbtnEqualBackgroundDefault</item>
+            <item name="android:background">@drawable/rectshadow</item>
             <item name="android:textColor">@android:color/white</item>
         </style>
         <style name="ButtonOperationDefault" parent="Button">

@@ -23,14 +23,16 @@ public class Utils {
         return 0;
     }
 
+    // Handling floating number
     public static String doubleToString(double d) {
         Double digit = d;
         Integer integer = (int) d;
         digit = (double) integer;
-        digit = digit - digit;
-        if(digit == 0.0) {
+        digit = d - digit;
+
+        if(digit == 0.0)
             return String.valueOf(new Double(d).intValue());
-        }
+
         return String.valueOf(d);
     }
 
@@ -39,9 +41,8 @@ public class Utils {
         Integer integer = (int) d;
         digit = (double) integer;
         digit = digit - digit;
-        if(digit == 0.0) {
+        if(digit == 0.0)
             return new Double(d).intValue();
-        }
         return d;
     }
 

@@ -39,6 +39,7 @@ public class ComplexOperation implements Operation{
     public double getResult() {
         findMultiDivOperator();
         String strResult = Digit.replaceSign(TextUtils.join("", currentFormula));
+        Log.i("final result", strResult);
         return Double.parseDouble(strResult);
     }
 
@@ -91,14 +92,12 @@ public class ComplexOperation implements Operation{
                     break;
             }
 
-            // Gestion des flottants later ....
-
             // Replacement du signe A // MINUS
             String resultValue = Utils.doubleToString(result);
             resultValue = Digit.replaceSignA(resultValue);
             String leftValue = Utils.doubleToString(complexBlock.getLeftValue());
 
-            //remove the bloc of calcul in formula: exemple -> "2 x 2"
+            //remove the bloc of calcul (2x2) in formula (2x2+1). output => (+1)
             String bloc = String.valueOf(complexBlock.getFormula());
 
             int delPos = -1;
@@ -107,7 +106,7 @@ public class ComplexOperation implements Operation{
                 currentFormula.remove(delPos);
             }
 
-            // insert newvalue in the formla: exemple -> "4"
+            // insert newvalue ("4") in the formla:. output => (4+1)
             for(int k = 0; k < resultValue.length(); k ++) {
                 String reverseValue = new StringBuilder(resultValue).reverse().toString();     // New value reverted
                 currentFormula.add(delPos, String.valueOf(reverseValue.charAt(k)));

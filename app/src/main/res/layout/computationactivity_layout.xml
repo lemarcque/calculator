@@ -169,6 +169,7 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="2"
             android:layout_columnSpan="2"
+            android:elevation="2dp"
             tools:text="="
             style="@style/ButtonEqualDefault"/>
     </GridLayout>
