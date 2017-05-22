@@ -100,7 +100,8 @@
             android:id="@+id/btn_multiply"
             android:text="@string/str_multiply"
             style="@style/ButtonOperationDefault"
-            android:tag="btn_operation" />
+            android:tag="btn_operation"
+            android:textAllCaps="false"/>
         <Button
             android:id="@+id/btn_four"
             android:tag="btn_numeric"
@@ -169,7 +170,7 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="2"
             android:layout_columnSpan="2"
-            android:elevation="2dp"
+            android:elevation="6dp"
             tools:text="="
             style="@style/ButtonEqualDefault"/>
     </GridLayout>

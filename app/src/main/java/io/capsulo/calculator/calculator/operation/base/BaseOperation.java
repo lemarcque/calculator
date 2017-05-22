@@ -1,7 +1,7 @@
 package io.capsulo.calculator.calculator.operation.base;
 
 /**
- * Created by lemarcque on 19.05.17.
+ * @author lemarcque
  */
 
 public class BaseOperation {
@@ -11,6 +11,7 @@ public class BaseOperation {
     protected double firstValue;
     protected double secondeValue;
     private String operator;
+
 
     public BaseOperation() {
 

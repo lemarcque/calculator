@@ -4,14 +4,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 import io.capsulo.calculator.calculator.operation.ComplexOperation;
-import io.capsulo.calculator.calculator.operation.DivideOperation;
-import io.capsulo.calculator.calculator.operation.MinusOperation;
-import io.capsulo.calculator.calculator.operation.MultiplyOperation;
-import io.capsulo.calculator.calculator.operation.PlusOperation;
 
 /**
  * @author lemarcque
@@ -28,8 +22,8 @@ public class Calculator {
     private boolean resetComputation;
 
     public Calculator() {
-        currentComputation = new ArrayList<String>();
-        currrentWritingNumber = new ArrayList<String>();
+        currentComputation = new ArrayList<>();
+        currrentWritingNumber = new ArrayList<>();
         result = "";
         formula = "";
     }
@@ -117,21 +111,20 @@ public class Calculator {
 
     private String getSign(Double digit) {
         String strDigit = String.valueOf(digit);
-
-        if(strDigit.charAt(0) == '-') {
+        if(strDigit.charAt(0) == '-')
             return Constants.MINUS;
-        }else if(strDigit.charAt(0) == '+') {
+        else if(strDigit.charAt(0) == '+')
             return Constants.PLUS;
-        }
 
         return Constants.PLUS;
     }
 
     /* use float instead.. */
     public void getPercent() {
-        /*if(currrentWritingNumber.size() > 0) {
+        if(currrentWritingNumber.size() > 0) {
             Double n = Double.parseDouble(TextUtils.join("", currrentWritingNumber));
             n = n / 100;
+
             String writerNumber = String.valueOf(n);
             currrentWritingNumber.clear();
 
@@ -140,12 +133,12 @@ public class Calculator {
             }
 
             result = Utils.arrayToString(currrentWritingNumber);
-            computation = "";
+            formula = "";
             currrentWritingNumber.clear();
-        }*/
+        }
     }
 
-    /* GETTER / SETTER */
+    /* GETTER */
     public String getFormula() {
         return Digit.replaceSign(formula);
     }

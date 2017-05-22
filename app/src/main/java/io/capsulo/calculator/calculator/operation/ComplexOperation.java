@@ -1,8 +1,6 @@
 package io.capsulo.calculator.calculator.operation;
 
 import android.text.TextUtils;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +26,6 @@ public class ComplexOperation implements Operation{
 
     public ComplexOperation(ArrayList<String> formula) {
         this.currentFormula = formula;
-        Log.i("BASE FORMULA", formula.toString());
         listOperators = new ArrayList<HashMap<String, String>>();
         listOperatorsI = new ArrayList<HashMap<String, String>>();
         listOperatorsII = new ArrayList<HashMap<String, String>>();
@@ -39,7 +36,6 @@ public class ComplexOperation implements Operation{
     public double getResult() {
         findMultiDivOperator();
         String strResult = Digit.replaceSign(TextUtils.join("", currentFormula));
-        Log.i("final result", strResult);
         return Double.parseDouble(strResult);
     }
 

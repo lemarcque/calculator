@@ -1,7 +1,6 @@
 package io.capsulo.calculator.calculator;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 

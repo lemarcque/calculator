@@ -1,7 +1,6 @@
 package io.capsulo.calculator.calculator.operation.base;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,16 +29,15 @@ public class ComplexBlock extends BaseOperation {
     public void calculValues(String formula, HashMap<String, String> operator) {
         int minPositionValue = 0;
         int maxPositionValue = formula.length();
-        int position = 0;
+        int position ;
         int index = 0;
         boolean verification = false;
         boolean isValueNull = false;
 
-        String strLeftValue = "";
-        String strRightValue = "";
-        ArrayList<String> currentLeftNumber = new ArrayList<String>();
-        ArrayList<String> currentRightNumber = new ArrayList<String>();
-        boolean initial = true;
+        String strLeftValue;
+        String strRightValue;
+        ArrayList<String> currentLeftNumber = new ArrayList<>();
+        ArrayList<String> currentRightNumber = new ArrayList<>();
 
         for(int sens = 0; sens < 2; sens++) {
 
