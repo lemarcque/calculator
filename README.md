@@ -8,8 +8,8 @@ The functionality provided is elementary mathematic operation (addition, substra
 </p>
 
 ## Author
-Lemarcque - ([@lemarcque](https://twitter.com/lemarcque))
+[@lemarcque](https://twitter.com/lemarcque)
 
 ## Acknowledgments
-Great inspiration come from the design of ([@alinashipulina] (https://twitter.com/alinashipulina))
+Great inspiration come from the design of [@alinashipulina](https://twitter.com/alinashipulina)
 findable in dribbble.
