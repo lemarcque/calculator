@@ -103,7 +103,6 @@ public class ButtonManager implements View.OnTouchListener {
             }, 0);
         }
     }
-
     // Only for down
     private void updateColor() {
         int colorRelease = Color.TRANSPARENT;

@@ -82,7 +82,6 @@ public class Calculator {
         else if(currrentWritingNumber.size() > 0) {
             // if user doesnt write any formula, we show this number
             result = TextUtils.join("", currrentWritingNumber);
-            reset();
         }
 
         resetComputation = true;
