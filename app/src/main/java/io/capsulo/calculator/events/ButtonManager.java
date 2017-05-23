@@ -3,6 +3,7 @@ package io.capsulo.calculator.events;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,9 +60,6 @@ public class ButtonManager implements View.OnTouchListener {
             this.updateValues();
         }
 
-        // Affectation de la couleur
-        V.setBackgroundColor(backgroundColor);
-
         return true;
     }
 
@@ -76,9 +74,38 @@ public class ButtonManager implements View.OnTouchListener {
         if(TAG.equals(ButtonString.TAG_OPERATION)) {
             backgroundColor = Color.parseColor("#66FFFFFF");
         }
+
+        // Affectation de la couleur
+        V.setBackgroundColor(backgroundColor);
     }
 
     private void handlingUp() {
+        if(TAG.equals(ButtonString.TAG_OPERATION) || ID == Constants.EQUAL) {
+            updateColor();
+        }else {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                int opacity = 255;
+
+                @Override
+                public void run() {
+                    opacity -= 15;
+                    if(opacity <= 0) {
+                        opacity = 255;
+                        updateColor();
+                        handler.removeCallbacks(this);
+                    } else {
+                        V.getBackground().setAlpha(opacity);
+                        handler.postDelayed(this, 10);
+                    }
+                }
+            }, 0);
+        }
+    }
+
+    // Only for down
+    private void updateColor() {
         int colorRelease = Color.TRANSPARENT;
         int colorReleaseBtnEqual = Color.parseColor("#3BDBEA");
 
@@ -93,6 +120,9 @@ public class ButtonManager implements View.OnTouchListener {
         if(TAG.equals(ButtonString.TAG_OPERATION)) {
             backgroundColor = Color.parseColor("#33FFFFFF");
         }
+
+        // Affectation de la couleur
+        V.setBackgroundColor(backgroundColor);
     }
 
     private void updateValues() {

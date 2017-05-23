@@ -6,10 +6,11 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import io.capsulo.calculator.calculator.operation.ComplexOperation;
+import io.capsulo.calculator.calculator.operation.DivideOperation;
 
 /**
  * @author lemarcque
- * Description : Classe permettant d'effectuer des opérations mathématiques
+ * Description : Classe représentant la machine à calculer et effectuant des opérations mathématiques
  */
 
 public class Calculator {
@@ -101,7 +102,7 @@ public class Calculator {
         double digit = Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber));
         String sign = this.getSign(digit);
         if(sign.equals(Constants.PLUS)) {
-            currrentWritingNumber.add(0, "-");  // B -> minus
+            currrentWritingNumber.add(0, "-");
         }else if(sign.equals(Constants.MINUS)) {
             currrentWritingNumber.remove(0);
         }
@@ -123,7 +124,7 @@ public class Calculator {
     public void getPercent() {
         if(currrentWritingNumber.size() > 0) {
             Double n = Double.parseDouble(TextUtils.join("", currrentWritingNumber));
-            n = n / 100;
+            n = new DivideOperation(n, 100).getResult();
 
             String writerNumber = String.valueOf(n);
             currrentWritingNumber.clear();
@@ -134,13 +135,12 @@ public class Calculator {
 
             result = Utils.arrayToString(currrentWritingNumber);
             formula = "";
-            currrentWritingNumber.clear();
         }
     }
 
     /* GETTER */
     public String getFormula() {
-        return Digit.replaceSign(formula);
+        return Digit.replaceSign(Utils.parseSpace(formula));
     }
 
     public String getResult() {
