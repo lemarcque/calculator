@@ -1,7 +1,6 @@
 package io.capsulo.calculator.calculator;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -20,71 +19,71 @@ public class Calculator {
     private String lastOperation;
     private ArrayList<String> currentComputation;         // computetext area
     private ArrayList<String> currrentWritingNumber;      // resulttext area
-    private boolean resetComputation;
 
     public Calculator() {
         currentComputation = new ArrayList<>();
         currrentWritingNumber = new ArrayList<>();
         result = "";
         formula = "";
+        lastOperation = "";
     }
 
-    /* Adding values (root, integer, point)  */
-    public void addValues(String values) {
-        if(resetComputation) {
-            resetComputation = false;
-            reset();
 
-            if(lastOperation.length() > 0) {
-                for(int l = 0; l < lastOperation.length(); l++) {
-                    currrentWritingNumber.add(String.valueOf(lastOperation.charAt(l)));
-                }
+    /* we add the result of previous operaion, if it exists */
+    private void addLastOperation() {
+        if(!lastOperation.equals("")) {
+            for(int l = 0; l < lastOperation.length(); l++) {
+                currrentWritingNumber.add(String.valueOf(lastOperation.charAt(l)));
             }
+
+            formula = "";
         }
-
-        currrentWritingNumber.add(values);
-        result += values;
     }
 
-    /* On ajoute le nombre actuellement entrain d'être écrit au calcul
-       et on rénitialise sa valeur à zéro.
-     */
-    public void updateCompute(String operator) {
-        // Uniquement si un nombre est écrit
-        if(currrentWritingNumber.size() > 0) {
-            if(this.getSign(Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber))).equals(Constants.MINUS))
-                currrentWritingNumber.set(0, "A");
+    public void addOperator(String operator) {
+        // we can add an operator only if at least one number have been written : "0" => "0 +"
+        if(currrentWritingNumber.size()  > 0) {
+            this.addLastOperation();
 
-            for(String n :  currrentWritingNumber) {
-                currentComputation.add(n);
-            }
+            // update
+            /*if(this.getSign(Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber))).equals(Constants.MINUS))
+                currrentWritingNumber.set(0, "A");*/
+
+
+            formula += result;
+            formula += operator;
 
             currrentWritingNumber.clear();
             result = "";
-            if(operator.length() > 0) currentComputation.add(operator);
-            formula = Utils.arrayToString(currentComputation);
+
+            this.addValues(operator);
         }
     }
 
-    /* Calculate formula */
+    public void addNumber(String digit) {
+        currrentWritingNumber.add(digit);
+        result += digit;
+        this.addValues(digit);
+    }
+
+    /* add value to the actual written calcul (root, integer, point) */
+    private void addValues(String v) {
+        currentComputation.add(v);
+    }
+
     public void compute() {
+        // we try to calcul only if there is something written, exemple : "[3,+,3]"
         if(currentComputation.size() > 0) {
-            updateCompute("");
-
             ComplexOperation complexOperation = new ComplexOperation(currentComputation);
-            double complexOperationResult = complexOperation.getResult();
-            Log.i("OK_VIA_COMPLEXOPERATION", String.valueOf(complexOperationResult));
-
-            result = String.valueOf(complexOperation);
+            formula += result;
+            result = String.valueOf(complexOperation.getResult());
             result = TextUtils.join("", currentComputation);
-            currentComputation.clear();
         }
         else if(currrentWritingNumber.size() > 0) {
             // if user doesnt write any formula, we show this number
             result = TextUtils.join("", currrentWritingNumber);
         }
 
-        resetComputation = true;
         lastOperation = result;
     }
 

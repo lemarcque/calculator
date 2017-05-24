@@ -146,11 +146,11 @@ public class ButtonManager implements View.OnTouchListener {
 
         // Gestion des boutons d'opération
         else if(TAG.equals(ButtonString.TAG_OPERATION))
-            calculator.updateCompute(V.getText().toString());
+            calculator.addOperator(V.getText().toString());
 
             // Gestion des boutons numériques
         else if(TAG.equals(ButtonString.TAG_NUMERIC))
-            calculator.addValues(V.getText().toString());
+            calculator.addNumber(V.getText().toString());
 
         this.updateInterface();
     }
