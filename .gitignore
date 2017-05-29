@@ -3,7 +3,7 @@
 build/
 calculator.iml
 gradlew.bat
-local.propreties
+local.properties
 settings.gradle
 
 # Ignore Gradle GUI config
