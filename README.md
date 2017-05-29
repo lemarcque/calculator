@@ -17,13 +17,9 @@ git clone https://github.com/lemarcque/calculator.git
 ```
 
 ## Author
-[@lemarcque](https://twitter.com/lemarcque)
-
-## Acknowledgments
-Great inspiration come from the design of [@alinashipulina](https://twitter.com/alinashipulina)
-findable in dribbble.
+* **XY** - coding [@lemarcque](https://twitter.com/lemarcque)
+* **Alina Shipulina** - design -  [@alinashipulina](https://twitter.com/alinashipulina)
 
 ## License
 
-A short snippet describing the license (MIT, Apache, etc.)
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
