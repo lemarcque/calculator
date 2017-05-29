@@ -1,6 +1,7 @@
 package io.capsulo.calculator.activity;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -41,6 +42,8 @@ public class ComputationActivity extends Activity {
 
     // Class
     private ButtonManager buttonManager;
+
+    // Interface
 
     public void onCreate(Bundle saveInstanceState) {
         // configuration of the view
@@ -97,9 +100,15 @@ public class ComputationActivity extends Activity {
         widthButton = Math.round(screenWidth / columnCount);    // 1 : buttons width equal to screenwidth divide by the number of column
         heightButton = Math.round(widthButton);                 // 2 : the button height equal to buttons width
 
+        // change the text font family
+        /*Typeface typeface = Typeface.createFromAsset(this.getAssets(), "fonts/flexdisplay-thin.otf");
+        txtCompute.setTypeface(typeface);
+        txtResult.setTypeface(typeface);*/
+
         buttonManager = new ButtonManager(this);
         // resize all the button
         for(Button btn : buttons) {
+            //btn.setTypeface(typeface);
             btn.getLayoutParams().height = heightButton;
             btn.requestLayout();
             btn.setOnTouchListener(buttonManager);
