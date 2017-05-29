@@ -10,8 +10,8 @@
 
     <!-- Text style -->
     <style name="fontStyle">
-        <item name="android:fontFamily">sans-serif-thin</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <!-- computationactivity_layout -->

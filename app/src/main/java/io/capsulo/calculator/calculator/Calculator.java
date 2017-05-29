@@ -15,10 +15,11 @@ import io.capsulo.calculator.calculator.operation.DivideOperation;
 public class Calculator {
 
     private String formula;
-    private String result;
-    private String lastOperation;
-    private ArrayList<String> currentComputation;         // computetext area
-    private ArrayList<String> currrentWritingNumber;      // resulttext area
+    private String result;                                // output value : computetext area
+    private String lastOperation;                         // output value : resulttext area
+    private ArrayList<String> currentComputation;         // variable for computing number
+    private ArrayList<String> currrentWritingNumber;      // variable for current number writed
+    private String MODE;
 
     public Calculator() {
         currentComputation = new ArrayList<>();
@@ -26,6 +27,7 @@ public class Calculator {
         result = "";
         formula = "";
         lastOperation = "";
+        MODE = Mode.RESET;
     }
 
 
@@ -36,6 +38,7 @@ public class Calculator {
                 currrentWritingNumber.add(String.valueOf(lastOperation.charAt(l)));
             }
 
+            MODE = Mode.WRITING;
             formula = "";
         }
     }
@@ -61,6 +64,16 @@ public class Calculator {
     }
 
     public void addNumber(String digit) {
+        // en cas de reset : 0
+        if(MODE.equals(Mode.RESET)) {
+            result = "";
+            MODE = Mode.WRITING;
+        }else if (MODE.equals(Mode.OFF)) {
+            reset();
+            result = "";
+            MODE = Mode.WRITING;
+        }
+
         currrentWritingNumber.add(digit);
         result += digit;
         this.addValues(digit);
@@ -72,16 +85,20 @@ public class Calculator {
     }
 
     public void compute() {
-        // we try to calcul only if there is something written, exemple : "[3,+,3]"
-        if(currentComputation.size() > 0) {
-            ComplexOperation complexOperation = new ComplexOperation(currentComputation);
-            formula += result;
-            result = String.valueOf(complexOperation.getResult());
-            result = TextUtils.join("", currentComputation);
-        }
-        else if(currrentWritingNumber.size() > 0) {
-            // if user doesnt write any formula, we show this number
-            result = TextUtils.join("", currrentWritingNumber);
+        if(MODE.equals(Mode.WRITING)) {
+            MODE = Mode.OFF;
+
+            // we try to calcul only if there is something written, exemple : "[3,+,3]"
+            if(currentComputation.size() > 0) {
+                ComplexOperation complexOperation = new ComplexOperation(currentComputation);
+                formula += result;
+                result = String.valueOf(complexOperation.getResult());
+                result = TextUtils.join("", currentComputation);
+            }
+            else if(currrentWritingNumber.size() > 0) {
+                // if user doesnt write any formula, we show this number
+                result = TextUtils.join("", currrentWritingNumber);
+            }
         }
 
         lastOperation = result;
@@ -91,14 +108,16 @@ public class Calculator {
     public void reset() {
         currentComputation.clear();
         currrentWritingNumber.clear();
-        result = "";
+        result = "0";
         formula = "";
         lastOperation = "";
+        MODE = Mode.RESET;
     }
 
     public void setSign() {
         double digit = Utils.StringToDouble(Utils.arrayToString(currrentWritingNumber));
         String sign = this.getSign(digit);
+
         if(sign.equals(Constants.PLUS)) {
             currrentWritingNumber.add(0, "-");
         }else if(sign.equals(Constants.MINUS)) {
