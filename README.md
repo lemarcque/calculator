@@ -17,8 +17,11 @@ git clone https://github.com/lemarcque/calculator.git
 ```
 
 ## Author
-* **XY** - coding [@lemarcque](https://twitter.com/lemarcque)
-* **Alina Shipulina** - design -  [@alinashipulina](https://twitter.com/alinashipulina)
+lemarcque XY - [@lemarcque](https://twitter.com/lemarcque)
+
+## Credits
+
+Great inspiration come from the designer of this application **Alina Shipulina**  [@alinashipulina](https://twitter.com/alinashipulina). You can find it is findable on his dribbble account.
 
 ## License
 
