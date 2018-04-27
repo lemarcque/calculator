@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/computationactivity_wrapper"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg"
+    >
+
+
+    <!--- Calculation Area -->
+    <LinearLayout
+        android:id="@+id/calcularea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Computer number -->
+        <TextView
+            android:id="@+id/txtCompute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textAlignment="textEnd"
+            tools:text=" 3 + 3 * 2"
+            android:textColor="#B3FFFFFF"
+            style="@style/ComputeText" />
+
+        <!-- Result number -->
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="60sp"
+            tools:text="9"
+            style="@style/ComputeText"/>
+    </LinearLayout>
+
+    <!-- Touch/Button Area -->
+    <GridLayout
+        android:id="@+id/toucharea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="5"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+        <Button
+            android:id="@+id/btn_clear"
+            android:tag="btn_special"
+            android:layout_width="0dp"
+            android:text="@string/str_clear"
+            tools:text="C"
+            style="@style/ButtonDefault"
+            />
+        <Button
+            android:id="@+id/btn_plusminus"
+            android:tag="btn_special"
+            android:text="@string/str_plusminus"
+            tools:text="±"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_percent"
+            android:tag="btn_special"
+            android:text="@string/str_percent"
+            tools:text="%"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_divide"
+            android:tag="btn_operation"
+            android:text="@string/str_divide"
+            tools:text="@string/str_divide"
+            style="@style/ButtonOperationDefault"
+            />
+        <Button
+            android:id="@+id/btn_seven"
+            android:tag="btn_numeric"
+            android:layout_width="0dp"
+            android:text="@string/str_seven"
+            tools:text="@string/str_seven"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_eight"
+            android:tag="btn_numeric"
+            android:layout_width="0dp"
+            android:text="@string/str_eight"
+            tools:text="@string/str_eight"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_nine"
+            android:tag="btn_numeric"
+            android:text="@string/str_nine"
+            tools:text="@string/str_nine"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_multiply"
+            android:text="@string/str_multiply"
+            style="@style/ButtonOperationDefault"
+            android:tag="btn_operation"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_four"
+            android:tag="btn_numeric"
+            android:text="@string/str_four"
+            tools:text="@string/str_four"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_five"
+            android:tag="btn_numeric"
+            android:text="@string/str_five"
+            tools:text="@string/str_five"
+            style="@style/ButtonDefault" />
+        <Button
+            android:id="@+id/btn_six"
+            android:tag="btn_numeric"
+            android:text="@string/str_six"
+            tools:text="@string/str_six"
+            style="@style/ButtonDefault"
+            />
+        <Button
+            android:id="@+id/btn_subtract"
+            android:text="-"
+            style="@style/ButtonOperationDefault"
+            android:tag="btn_operation"/>
+        <Button
+            android:id="@+id/btn_one"
+            android:tag="btn_numeric"
+            android:text="1"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_two"
+            android:tag="btn_numeric"
+            android:layout_width="0dp"
+            android:text="@string/str_two"
+            tools:text="@string/str_two"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_three"
+            android:tag="btn_numeric"
+            android:text="@string/str_three"
+            tools:text="@string/str_three"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_add"
+            android:tag="btn_operation"
+            android:text="@string/str_add"
+            tools:text="@string/str_add"
+            style="@style/ButtonOperationDefault" />
+        <Button
+            android:id="@+id/btn_zero"
+            android:tag="btn_numeric"
+            android:text="@string/str_zero"
+            tools:text="@string/str_zero"
+            style="@style/ButtonDefault"/>
+        <Button
+            android:id="@+id/btn_point"
+            android:tag="btn_numeric"
+            android:text="@string/str_point"
+            tools:text="@string/str_point"
+            style="@style/ButtonDefault" />
+        <Button
+            android:id="@+id/btn_equal"
+            android:tag="btn_special"
+            android:text="@string/str_equal"
+            android:gravity="center"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="2"
+            android:layout_columnSpan="2"
+            android:elevation="6dp"
+            tools:text="="
+            style="@style/ButtonEqualDefault"/>
+    </GridLayout>
+
+</LinearLayout>
